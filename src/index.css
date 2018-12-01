@@ -1,0 +1,12 @@
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, sans-serif;
+  font-size: 16px;
+  line-height: 24px;
+  background: #eee url('../public/images/arnold-schwarzenegger.png') no-repeat right bottom;
+}

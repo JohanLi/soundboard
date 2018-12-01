@@ -1,0 +1,82 @@
+.header {
+  background: #333;
+  height: 40px;
+  display: flex;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -webkit-app-region: drag;
+}
+
+.title {
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+  color: #fff;
+  padding: 0 20px;
+}
+
+.minimize,
+.maximize,
+.close {
+  -webkit-app-region: no-drag;
+  cursor: pointer;
+  position: relative;
+  height: 100%;
+  width: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.minimize::before {
+  position: absolute;
+  content: '';
+  width: 18px;
+  height: 1px;
+  background: #fff;
+}
+
+.maximize::before {
+  position: absolute;
+  content: "";
+  width: 8px;
+  height: 8px;
+  border: 1px solid #fff;
+}
+
+.maximize.active::before {
+  position: absolute;
+  content: "";
+  width: 8px;
+  height: 8px;
+  border: 1px solid #fff;
+  margin-top: -2px;
+  margin-left: 2px;
+}
+
+.maximize.active::after {
+  position: absolute;
+  content: "";
+  width: 8px;
+  height: 8px;
+  border: 1px solid #fff;
+  margin-top: 1px;
+  margin-left: -1px;
+  background: #333;
+}
+
+.close::before, .close::after {
+  position: absolute;
+  content: "";
+  width: 18px;
+  height: 2px;
+  background: #fff;
+}
+
+.close::before {
+  transform: rotate(45deg);
+}
+
+.close::after {
+  transform: rotate(-45deg);
+}
