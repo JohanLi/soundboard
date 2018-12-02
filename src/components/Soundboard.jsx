@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
 
@@ -14,6 +14,8 @@ const stopAllSounds = (playing) => {
 };
 
 const Soundboard = (props) => {
+  const [dropdown, setDropdown] = useState(false);
+
   useEffect(() => {
     props.loadSoundboard();
 
@@ -34,9 +36,23 @@ const Soundboard = (props) => {
     };
   });
 
-  if (!props.name) {
+  if (!props.activeSoundboard) {
     return null;
   }
+
+  const soundboards = Object.keys(props.soundboards).map((soundboard) => (
+    <li
+      key={soundboard}
+      onClick={() => props.loadSoundboard(soundboard)}
+    >
+      {props.soundboards[soundboard].name}
+    </li>
+  ));
+
+  const dropdownClass = classNames({
+    [styles.dropdown]: true,
+    [styles.active]: dropdown,
+  });
 
   const sections = Object.keys(props.sections).map((section) => {
     const style = classNames({
@@ -86,11 +102,14 @@ const Soundboard = (props) => {
   });
 
   return (
-    <main className={styles.main}>
-      <div className={styles.title}>
-        <h1 className={styles.h1}>
-          {props.name}
-        </h1>
+    <main className={styles.main} style={{ backgroundImage: `url('/soundboards/${props.activeSoundboard}/avatar.png')` }}>
+      <div className={styles.switch} onClick={() => setDropdown(!dropdown)}>
+        <div className={styles.name}>
+          {props.soundboards[props.activeSoundboard].name}
+        </div>
+        <div className={dropdownClass}>
+          {soundboards}
+        </div>
       </div>
       <ul className={styles.sections}>
         {sections}
@@ -101,6 +120,8 @@ const Soundboard = (props) => {
 };
 
 const mapStateToProps = state => ({
+  soundboards: state.soundboards,
+  activeSoundboard: state.activeSoundboard,
   name: state.name,
   sections: state.sections,
   activeSection: state.activeSection,

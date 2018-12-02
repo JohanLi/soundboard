@@ -3,21 +3,33 @@ import { join } from 'path';
 
 import { CHANGE_SECTION, STARTED_PLAYING, STOPPED_PLAYING, LOAD_SOUNDBOARD } from '../actions';
 
-const soundboardsPath = './public/soundboards';
+const metadata = {};
+const getSoundboards = () => {
+  const soundboardsPath = './public/soundboards';
+  const soundboards = readdirSync(soundboardsPath, 'utf8')
+    .filter(file => {
+      const absolutePath = join(soundboardsPath, file);
+      return lstatSync(absolutePath).isDirectory();
+    });
 
-const getSoundboards = () => readdirSync(soundboardsPath, 'utf8')
-  .filter(file => {
-    const absolutePath = join(soundboardsPath, file);
-    return lstatSync(absolutePath).isDirectory();
+  soundboards.forEach((soundboard) => {
+    const absolutePath = join(soundboardsPath, soundboard);
+    metadata[soundboard] = JSON.parse(readFileSync(`${absolutePath}/metadata.json`, 'utf8'));
   });
 
-const getMetadata = soundboard => {
-  const absolutePath = join(soundboardsPath, soundboard);
-  return JSON.parse(readFileSync(`${absolutePath}/metadata.json`, 'utf8'));
+  const s = {};
+
+  soundboards.forEach(soundboard => {
+    s[soundboard] = {
+      name: metadata[soundboard].name,
+    };
+  });
+
+  return s;
 };
 
 const initialState = {
-  soundboards: [],
+  soundboards: {},
   activeSoundboard: null,
   name: null,
   sections: {},
@@ -32,23 +44,32 @@ export default (state = initialState, action) => {
   switch (type) {
     case LOAD_SOUNDBOARD: {
       const newState = Object.assign({}, state);
-      newState.soundboards = getSoundboards();
-      newState.activeSoundboard = newState.soundboards[0];
-      const metadata = getMetadata(newState.activeSoundboard);
 
-      newState.name = metadata.name;
+      if (payload) {
+        if (payload === newState.activeSoundboard) {
+          return state;
+        }
 
-      Object.keys(metadata.sections).forEach((section) => {
+        newState.activeSoundboard = payload;
+        newState.sections = {};
+      } else {
+        newState.soundboards = getSoundboards();
+        newState.activeSoundboard = Object.keys(newState.soundboards)[0];
+      }
+
+      newState.name = metadata[newState.activeSoundboard].name;
+
+      Object.keys(metadata[newState.activeSoundboard].sections).forEach((section) => {
         newState.sections[section] = {
           name: section,
-          phrases:  metadata.sections[section].map((phrase) => ({
+          phrases:  metadata[newState.activeSoundboard].sections[section].map((phrase) => ({
             name: phrase.name,
             src: `/soundboards/${newState.activeSoundboard}/files/${phrase.file}`,
           })),
         }
       });
 
-      newState.activeSection = Object.keys(metadata.sections)[0];
+      newState.activeSection = Object.keys(metadata[newState.activeSoundboard].sections)[0];
 
       return newState;
     }

@@ -1,3 +1,7 @@
+* {
+  box-sizing: border-box;
+}
+
 html,
 body {
   height: 100%;
@@ -8,5 +12,5 @@ body {
   font-family: Roboto, sans-serif;
   font-size: 16px;
   line-height: 24px;
-  background: #eee url('../public/soundboards/arnold-schwarzenegger/avatar.png') no-repeat right bottom;
+  background: #eee;
 }
