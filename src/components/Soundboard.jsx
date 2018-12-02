@@ -13,9 +13,9 @@ const stopAllSounds = (playing) => {
   });
 };
 
-const Soundboard = ({ name, sections, activeSection, changeSection, playing, startedPlaying, stoppedPlaying, loadSoundboard }) => {
+const Soundboard = (props) => {
   useEffect(() => {
-    loadSoundboard();
+    props.loadSoundboard();
 
     return () => null;
   }, []);
@@ -23,7 +23,7 @@ const Soundboard = ({ name, sections, activeSection, changeSection, playing, sta
   useEffect(() => {
     const handleKeypress = (e) => {
       if (e.key === ' ') {
-        stopAllSounds(playing);
+        stopAllSounds(props.playing);
       }
     };
 
@@ -34,50 +34,68 @@ const Soundboard = ({ name, sections, activeSection, changeSection, playing, sta
     };
   });
 
-  if (!name) {
+  if (!props.name) {
     return null;
   }
 
-  const sectionsJsx = Object.keys(sections).map((section) => {
+  const sections = Object.keys(props.sections).map((section) => {
     const style = classNames({
       [styles.section]: true,
-      [styles.active]: section === activeSection,
+      [styles.active]: section === props.activeSection,
     });
 
     return (
       <li
         key={section}
         className={style}
-        onClick={() => changeSection(section)}
+        onClick={() => props.changeSection(section)}
       >
-        {sections[section].name}
+        {props.sections[section].name}
       </li>
     );
   });
 
-  const phrasesJsx = sections[activeSection].phrases.map(phrase => (
-    <Phrase
-      key={phrase.src}
-      name={phrase.name}
-      src={phrase.src}
-      startedPlaying={startedPlaying}
-      stoppedPlaying={stoppedPlaying}
-    />
-  ));
+  /*
+    keeping all <Phrase> components in the DOM but hiding them based on activeSection allows us to
+    switch section while audio for the previous section is still playing.
+  */
+  const sectionsOfPhrases = Object.keys(props.sections).map((section) => {
+    const style = classNames({
+      [styles.sectionOfPhrases]: true,
+      [styles.hidden]: section !== props.activeSection,
+    });
+
+    const phrases = props.sections[section].phrases.map((phrase) => (
+      <Phrase
+        key={phrase.src}
+        name={phrase.name}
+        src={phrase.src}
+        startedPlaying={props.startedPlaying}
+        stoppedPlaying={props.stoppedPlaying}
+      />
+    ));
+
+    return (
+      <ul
+        key={section}
+        className={style}
+      >
+        {phrases}
+      </ul>
+    );
+  });
 
   return (
     <main className={styles.main}>
       <div className={styles.title}>
         <h1 className={styles.h1}>
-          {name}
+          {props.name}
         </h1>
       </div>
       <ul className={styles.sections}>
-        {sectionsJsx}
+        {sections}
       </ul>
-      <ul className={styles.audio}>
-        {phrasesJsx}
-      </ul>
+      {sectionsOfPhrases}
     </main>
   );
 };
@@ -86,6 +104,7 @@ const mapStateToProps = state => ({
   name: state.name,
   sections: state.sections,
   activeSection: state.activeSection,
+  phrases: state.phrases,
   playing: state.playing,
 });
 

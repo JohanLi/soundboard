@@ -48,7 +48,7 @@ export default (state = initialState, action) => {
         }
       });
 
-      newState.activeSection = Object.keys(newState.sections)[0];
+      newState.activeSection = Object.keys(metadata.sections)[0];
 
       return newState;
     }
