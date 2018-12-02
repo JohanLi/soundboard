@@ -1,12 +1,12 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
-module.exports = {
+const config = {
   entry: {
     app: './src',
   },
   output: {
     path: `${__dirname}/public/`,
-    filename: 'client.js',
+    filename: 'app.js',
   },
   resolve: {
     extensions: ['.js', '.jsx'],
@@ -33,19 +33,25 @@ module.exports = {
         ],
       },
       {
-        test: /\.(png|woff2)/,
+        test: /\.woff2/,
         loader: 'file-loader',
       },
     ],
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: './public/index.html',
+      template: './src/index.html',
     }),
   ],
-  devServer: {
-    contentBase: `${__dirname}/public/`,
-  },
   target: 'electron-renderer',
-  mode: 'development',
 };
+
+if (process.env.NODE_ENV === 'development') {
+  config.devServer = {
+    contentBase: `${__dirname}/public/`,
+  };
+
+  config.devtool = 'cheap-eval-source-map';
+}
+
+module.exports = config;

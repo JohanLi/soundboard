@@ -102,7 +102,7 @@ const Soundboard = (props) => {
   });
 
   return (
-    <main className={styles.main} style={{ backgroundImage: `url('/soundboards/${props.activeSoundboard}/avatar.png')` }}>
+    <main className={styles.main} style={{ backgroundImage: `url('soundboards/${props.activeSoundboard}/avatar.png')` }}>
       <div className={styles.switch} onClick={() => setDropdown(!dropdown)}>
         <div className={styles.name}>
           {props.soundboards[props.activeSoundboard].name}

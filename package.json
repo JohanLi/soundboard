@@ -4,9 +4,15 @@
   "description": "",
   "main": "main.js",
   "scripts": {
-    "start": "npm-run-all --parallel webpack electron",
-    "webpack": "webpack-dev-server --hot",
-    "electron": "electron ."
+    "start": "cross-env NODE_ENV=development npm-run-all --parallel webpack electron",
+    "webpack": "webpack-dev-server --mode development --hot",
+    "electron": "electron .",
+    "build": "cross-env NODE_ENV=production npm-run-all build:*",
+    "build:webpack": "webpack --mode production",
+    "build:dist": "electron-builder"
+  },
+  "build": {
+    "appId": "soundboard"
   },
   "author": "",
   "license": "MIT",
@@ -29,8 +35,10 @@
     "@babel/preset-env": "^7.1.6",
     "@babel/preset-react": "^7.0.0",
     "babel-loader": "^8.0.4",
+    "cross-env": "^5.2.0",
     "css-loader": "^1.0.1",
     "electron": "^4.0.0-beta.8",
+    "electron-builder": "^20.38.2",
     "file-loader": "^2.0.0",
     "html-webpack-plugin": "^3.2.0",
     "npm-run-all": "^4.1.5",

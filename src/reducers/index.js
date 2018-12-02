@@ -1,11 +1,12 @@
 import { lstatSync, readdirSync, readFileSync } from 'fs';
 import { join } from 'path';
+import { remote } from 'electron';
 
 import { CHANGE_SECTION, STARTED_PLAYING, STOPPED_PLAYING, LOAD_SOUNDBOARD } from '../actions';
 
 const metadata = {};
 const getSoundboards = () => {
-  const soundboardsPath = './public/soundboards';
+  const soundboardsPath = remote.app.getAppPath() + '/public/soundboards';
   const soundboards = readdirSync(soundboardsPath, 'utf8')
     .filter(file => {
       const absolutePath = join(soundboardsPath, file);
@@ -64,7 +65,7 @@ export default (state = initialState, action) => {
           name: section,
           phrases:  metadata[newState.activeSoundboard].sections[section].map((phrase) => ({
             name: phrase.name,
-            src: `/soundboards/${newState.activeSoundboard}/files/${phrase.file}`,
+            src: `soundboards/${newState.activeSoundboard}/files/${phrase.file}`,
           })),
         }
       });

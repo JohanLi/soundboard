@@ -14,3 +14,24 @@ body {
   line-height: 24px;
   background: #eee;
 }
+
+@font-face {
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: 400;
+  src: url('../public/fonts/roboto-400.woff2');
+}
+
+@font-face {
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: 500;
+  src: url('../public/fonts/roboto-500.woff2');
+}
+
+@font-face {
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: 700;
+  src: url('../public/fonts/roboto-700.woff2');
+}

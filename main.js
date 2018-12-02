@@ -9,9 +9,12 @@ function createWindow () {
     frame: false,
   });
 
-  mainWindow.webContents.openDevTools();
-
-  mainWindow.loadURL('http://localhost:8080');
+  if (process.env.NODE_ENV === 'development') {
+    mainWindow.webContents.openDevTools();
+    mainWindow.loadURL('http://localhost:8080');
+  } else {
+    mainWindow.loadURL(`file://${__dirname}/public/index.html`);
+  }
 
   mainWindow.on('closed', function () {
     mainWindow = null;
