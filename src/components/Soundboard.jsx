@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
+import classNames from 'classnames';
 
-import { startedPlaying, stoppedPlaying } from '../actions';
+import { changeSection, startedPlaying, stoppedPlaying, loadSoundboard } from '../actions';
 import Phrase from './Phrase';
 import styles from './soundboard.css';
 
@@ -12,7 +13,13 @@ const stopAllSounds = (playing) => {
   });
 };
 
-const Soundboard = ({ phrases, playing, startedPlaying, stoppedPlaying }) => {
+const Soundboard = ({ name, sections, activeSection, changeSection, playing, startedPlaying, stoppedPlaying, loadSoundboard }) => {
+  useEffect(() => {
+    loadSoundboard();
+
+    return () => null;
+  }, []);
+
   useEffect(() => {
     const handleKeypress = (e) => {
       if (e.key === ' ') {
@@ -27,7 +34,28 @@ const Soundboard = ({ phrases, playing, startedPlaying, stoppedPlaying }) => {
     };
   });
 
-  const phrasesJsx = phrases.map(phrase => (
+  if (!name) {
+    return null;
+  }
+
+  const sectionsJsx = Object.keys(sections).map((section) => {
+    const style = classNames({
+      [styles.section]: true,
+      [styles.active]: section === activeSection,
+    });
+
+    return (
+      <li
+        key={section}
+        className={style}
+        onClick={() => changeSection(section)}
+      >
+        {sections[section].name}
+      </li>
+    );
+  });
+
+  const phrasesJsx = sections[activeSection].phrases.map(phrase => (
     <Phrase
       key={phrase.src}
       name={phrase.name}
@@ -40,10 +68,12 @@ const Soundboard = ({ phrases, playing, startedPlaying, stoppedPlaying }) => {
   return (
     <main className={styles.main}>
       <div className={styles.title}>
-        <h1 className={styles.h1}>Arnold Schwarzenegger</h1>
+        <h1 className={styles.h1}>
+          {name}
+        </h1>
       </div>
       <ul className={styles.sections}>
-        Pleasantries
+        {sectionsJsx}
       </ul>
       <ul className={styles.audio}>
         {phrasesJsx}
@@ -54,14 +84,17 @@ const Soundboard = ({ phrases, playing, startedPlaying, stoppedPlaying }) => {
 
 const mapStateToProps = state => ({
   name: state.name,
-  phrases: state.phrases,
+  sections: state.sections,
+  activeSection: state.activeSection,
   playing: state.playing,
 });
 
 export default connect(
   mapStateToProps,
   {
+    changeSection,
     startedPlaying,
     stoppedPlaying,
+    loadSoundboard,
   },
 )(Soundboard);
