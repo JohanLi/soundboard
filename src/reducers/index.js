@@ -53,6 +53,7 @@ export default (state = initialState, action) => {
 
         newState.activeSoundboard = payload;
         newState.sections = {};
+        newState.playing = [];
       } else {
         newState.soundboards = getSoundboards();
         newState.activeSoundboard = Object.keys(newState.soundboards)[0];

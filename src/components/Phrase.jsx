@@ -19,6 +19,11 @@ export default ({ src, name, startedPlaying, stoppedPlaying }) => {
   };
 
   const updateProgress = () => {
+    // handles case when switching to another soundboard, while audio is playing
+    if (!audioElement.current) {
+      return;
+    }
+
     const percent = (audioElement.current.currentTime / audioElement.current.duration) * 100;
 
     if (percent < 100 && !audioElement.current.paused) {
