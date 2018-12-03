@@ -1,0 +1,145 @@
+{
+  "name": "Donald Trump",
+  "sections": {
+    "pleasantries": [
+      {
+        "name": "Hello everyone",
+        "file": "hello-everyone.mp3"
+      },
+      {
+        "name": "Good morning",
+        "file": "good-morning.mp3"
+      },
+      {
+        "name": "Fun tonight",
+        "file": "fun-tonight.mp3"
+      },
+      {
+        "name": "Something special",
+        "file": "something-special.mp3"
+      },
+      {
+        "name": "Nice guy",
+        "file": "nice-guy.mp3"
+      },
+      {
+        "name": "Leader now",
+        "file": "leader-now.mp3"
+      },
+      {
+        "name": "Fight for you",
+        "file": "fight-for-you.mp3"
+      }
+    ],
+    "statements": [
+      {
+        "name": "Country serious trouble",
+        "file": "country-serious-trouble.mp3"
+      },
+      {
+        "name": "Greatest president",
+        "file": "greatest-president.mp3"
+      },
+      {
+        "name": "Made a lot of money",
+        "file": "made-a-lot-of-money.mp3"
+      },
+      {
+        "name": "Really rich",
+        "file": "really-rich.mp3"
+      },
+      {
+        "name": "Love my life",
+        "file": "love-my-life.mp3"
+      },
+      {
+        "name": "Build wall",
+        "file": "build-wall.mp3"
+      }
+    ],
+    "counters": [
+      {
+        "name": "Something wrong",
+        "file": "something-wrong.mp3"
+      },
+      {
+        "name": "Break it",
+        "file": "break-it.mp3"
+      },
+      {
+        "name": "You´re fired",
+        "file": "youre-fired.mp3"
+      },
+      {
+        "name": "You the boss",
+        "file": "you-the-boss.mp3"
+      },
+      {
+        "name": "You surprised",
+        "file": "you-surprised.mp3"
+      },
+      {
+        "name": "Be specific",
+        "file": "be-specific.mp3"
+      },
+      {
+        "name": "Ridicule me",
+        "file": "ridicule-me.mp3"
+      },
+      {
+        "name": "Take a joke",
+        "file": "take-a-joke.mp3"
+      },
+      {
+        "name": "Nothing better",
+        "file": "nothing-better.mp3"
+      },
+      {
+        "name": "Amazing guy",
+        "file": "amazing-guy.mp3"
+      },
+      {
+        "name": "Hold grudges",
+        "file": "hold-grudges.mp3"
+      },
+      {
+        "name": "All talk",
+        "file": "all-talk.mp3"
+      }
+    ],
+    "reactions": [
+      {
+        "name": "Congratulations",
+        "file": "congratulations.mp3"
+      },
+      {
+        "name": "Can´t do anything",
+        "file": "cant-do-anything.mp3"
+      },
+      {
+        "name": "No victories",
+        "file": "no-victories.mp3"
+      },
+      {
+        "name": "Look this guy",
+        "file": "look-this-guy.mp3"
+      },
+      {
+        "name": "Do better",
+        "file": "do-better.mp3"
+      },
+      {
+        "name": "Watching you",
+        "file": "watching-you.mp3"
+      },
+      {
+        "name": "Have losers",
+        "file": "have-losers.mp3"
+      },
+      {
+        "name": "Enemies stronger",
+        "file": "enemies-stronger.mp3"
+      }
+    ]
+  }
+}
