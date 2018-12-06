@@ -2,16 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
 
-import { changeSection, startedPlaying, stoppedPlaying, loadSoundboard } from '../actions';
+import { changeSection, stopAllSounds, loadSoundboard } from '../actions';
+import OutputDevice from './OutputDevice';
 import Phrase from './Phrase';
 import styles from './soundboard.css';
-
-const stopAllSounds = (playing) => {
-  playing.forEach((audioElement) => {
-    audioElement.current.pause();
-    audioElement.current.currentTime = 0;
-  });
-};
 
 const Soundboard = (props) => {
   const [dropdown, setDropdown] = useState(false);
@@ -25,7 +19,7 @@ const Soundboard = (props) => {
   useEffect(() => {
     const handleKeypress = (e) => {
       if (e.key === ' ') {
-        stopAllSounds(props.playing);
+        props.stopAllSounds();
       }
     };
 
@@ -83,11 +77,10 @@ const Soundboard = (props) => {
 
     const phrases = props.sections[section].phrases.map((phrase) => (
       <Phrase
-        key={phrase.src}
+        key={phrase.name}
         name={phrase.name}
-        src={phrase.src}
-        startedPlaying={props.startedPlaying}
-        stoppedPlaying={props.stoppedPlaying}
+        audioElement={phrase.audioElement}
+        activeDevice={props.activeDevice}
       />
     ));
 
@@ -103,13 +96,16 @@ const Soundboard = (props) => {
 
   return (
     <main className={styles.main} style={{ backgroundImage: `url('soundboards/${props.activeSoundboard}/avatar.png')` }}>
-      <div className={styles.switch} onClick={() => setDropdown(!dropdown)}>
-        <div className={styles.name}>
-          {props.soundboards[props.activeSoundboard].name}
+      <div className={styles.top}>
+        <div className={styles.switch} onClick={() => setDropdown(!dropdown)}>
+          <div className={styles.name}>
+            {props.soundboards[props.activeSoundboard].name}
+          </div>
+          <div className={dropdownClass}>
+            {soundboards}
+          </div>
         </div>
-        <div className={dropdownClass}>
-          {soundboards}
-        </div>
+        <OutputDevice />
       </div>
       <ul className={styles.sections}>
         {sections}
@@ -126,15 +122,14 @@ const mapStateToProps = state => ({
   sections: state.sections,
   activeSection: state.activeSection,
   phrases: state.phrases,
-  playing: state.playing,
+  activeDevice: state.activeDevice,
 });
 
 export default connect(
   mapStateToProps,
   {
     changeSection,
-    startedPlaying,
-    stoppedPlaying,
+    stopAllSounds,
     loadSoundboard,
   },
 )(Soundboard);

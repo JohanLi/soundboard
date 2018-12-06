@@ -4,6 +4,11 @@
   background: no-repeat right bottom;
 }
 
+.top {
+  display: flex;
+  align-items: center;
+}
+
 .switch {
   cursor: pointer;
   position: relative;

@@ -1,0 +1,50 @@
+.outputDevice {
+  display: flex;
+  margin-left: 100px;
+}
+
+.selected {
+  margin-left: 10px;
+  cursor: pointer;
+  position: relative;
+  user-select: none;
+  min-width: 300px;
+}
+
+.selected::after {
+  display: inline-block;
+  width: 0;
+  height: 0;
+  margin-left: 5px;
+  vertical-align: 2px;
+  content: "";
+  border-top: 5px solid;
+  border-right: 5px solid transparent;
+  border-bottom: 0;
+  border-left: 5px solid transparent;
+}
+
+.dropdown {
+  display: none;
+  position: absolute;
+  width: 400px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  background: #000;
+  color: #fff;
+  top: calc(100% + 10px);
+  left: -10px;
+}
+
+.dropdown li {
+  padding: 10px;
+}
+
+.dropdown li:hover {
+  background: #222;
+}
+
+.dropdown.active {
+  display: block;
+}

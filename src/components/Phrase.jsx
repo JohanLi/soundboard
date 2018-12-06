@@ -1,37 +1,41 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import styles from './phrase.css';
 
-export default ({ src, name, startedPlaying, stoppedPlaying }) => {
+export default ({ name, audioElement }) => {
   const [percent, setPercent] = useState(0);
 
-  const audioElement = useRef(null);
+  useEffect(() => {
+    let requestId;
+
+    const updateProgress = () => {
+      const percent = (audioElement.currentTime / audioElement.duration) * 100;
+      setPercent(percent);
+
+      requestId = window.requestAnimationFrame(updateProgress);
+    };
+
+    const cancelUpdate = () => {
+      setPercent(0);
+      window.cancelAnimationFrame(requestId);
+    };
+
+    audioElement.addEventListener('play', updateProgress);
+    audioElement.addEventListener('pause', cancelUpdate);
+
+    return () => {
+      cancelUpdate();
+      audioElement.removeEventListener('play', updateProgress);
+      audioElement.removeEventListener('pause', cancelUpdate);
+    };
+  }, []);
 
   const onClick = () => {
-    if (!audioElement.current.paused) {
-      audioElement.current.pause();
-      audioElement.current.currentTime = 0;
+    if (!audioElement.paused) {
+      audioElement.pause();
+      audioElement.currentTime = 0;
     } else {
-      audioElement.current.play();
-      startedPlaying(audioElement);
-      window.requestAnimationFrame(updateProgress);
-    }
-  };
-
-  const updateProgress = () => {
-    // handles case when switching to another soundboard, while audio is playing
-    if (!audioElement.current) {
-      return;
-    }
-
-    const percent = (audioElement.current.currentTime / audioElement.current.duration) * 100;
-
-    if (percent < 100 && !audioElement.current.paused) {
-      window.requestAnimationFrame(updateProgress);
-      setPercent(percent);
-    } else {
-      setPercent(0);
-      stoppedPlaying(src);
+      audioElement.play();
     }
   };
 
@@ -42,7 +46,6 @@ export default ({ src, name, startedPlaying, stoppedPlaying }) => {
       style={{ background: `linear-gradient(90deg, #ccc ${percent}%, #ddd 0%)` }}
     >
       {name}
-      <audio src={src} ref={audioElement} />
     </li>
   );
 }

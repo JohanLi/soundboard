@@ -2,7 +2,12 @@ import { lstatSync, readdirSync, readFileSync } from 'fs';
 import { join } from 'path';
 import { remote } from 'electron';
 
-import { CHANGE_SECTION, STARTED_PLAYING, STOPPED_PLAYING, LOAD_SOUNDBOARD } from '../actions';
+import {
+  CHANGE_SECTION,
+  LOAD_SOUNDBOARD,
+  LOADED_OUTPUT_DEVICES,
+  CHANGE_OUTPUT_DEVICE
+} from '../actions';
 
 const metadata = {};
 const getSoundboards = () => {
@@ -35,8 +40,9 @@ const initialState = {
   name: null,
   sections: {},
   activeSection: null,
-  phrases: [],
   playing: [],
+  devices: [],
+  activeDevice: 'default',
 };
 
 export default (state = initialState, action) => {
@@ -53,7 +59,6 @@ export default (state = initialState, action) => {
 
         newState.activeSoundboard = payload;
         newState.sections = {};
-        newState.playing = [];
       } else {
         newState.soundboards = getSoundboards();
         newState.activeSoundboard = Object.keys(newState.soundboards)[0];
@@ -64,10 +69,15 @@ export default (state = initialState, action) => {
       Object.keys(metadata[newState.activeSoundboard].sections).forEach((section) => {
         newState.sections[section] = {
           name: section,
-          phrases:  metadata[newState.activeSoundboard].sections[section].map((phrase) => ({
-            name: phrase.name,
-            src: `soundboards/${newState.activeSoundboard}/files/${phrase.file}`,
-          })),
+          phrases: metadata[newState.activeSoundboard].sections[section].map((phrase) => {
+            const audioElement = document.createElement('audio');
+            audioElement.src = `soundboards/${newState.activeSoundboard}/files/${phrase.file}`;
+
+            return {
+              name: phrase.name,
+              audioElement,
+            };
+          }),
         }
       });
 
@@ -81,17 +91,17 @@ export default (state = initialState, action) => {
 
       return newState;
     }
-    case STARTED_PLAYING: {
-      const newState = Object.assign({}, state);
-      newState.playing.push(payload);
-
-      return newState;
+    case LOADED_OUTPUT_DEVICES: {
+      return {
+        ...state,
+        devices: payload,
+      }
     }
-    case STOPPED_PLAYING: {
-      const newState = Object.assign({}, state);
-      newState.playing = newState.playing.filter(audioElement => audioElement.current.getAttribute('src') !== payload);
-
-      return newState;
+    case CHANGE_OUTPUT_DEVICE: {
+      return {
+        ...state,
+        activeDevice: payload,
+      }
     }
     default: {
       return state;
