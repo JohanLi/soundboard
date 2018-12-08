@@ -1,22 +1,19 @@
+import { Dispatch } from 'redux';
+import { State, Phrase } from '../types';
+
 export const LOAD_SOUNDBOARD = 'LOAD_SOUNDBOARD';
 export const CHANGE_SECTION = 'CHANGE_SECTION';
 export const LOADED_OUTPUT_DEVICES = 'LOADED_OUTPUT_DEVICES';
 export const CHANGE_OUTPUT_DEVICE = 'CHANGE_OUTPUT_DEVICE';
 
-export const loadSoundboard = name => {
-  return (dispatch) => {
-    if (name) {
-      dispatch(stopAllSounds());
-    }
-
-    dispatch({
-      type: LOAD_SOUNDBOARD,
-      payload: name,
-    });
+export const loadSoundboard = (name: string) => {
+  return {
+    type: LOAD_SOUNDBOARD,
+    payload: name,
   };
 };
 
-export const changeSection = section => {
+export const changeSection = (section: string) => {
   return {
     type: CHANGE_SECTION,
     payload: section,
@@ -24,7 +21,7 @@ export const changeSection = section => {
 };
 
 export const stopAllSounds = () => {
-  return (dispatch, getState) => {
+  return (dispatch: Dispatch, getState: () => State) => {
     const { sections } = getState();
 
     Object.keys(sections).forEach((section) => {
@@ -33,11 +30,11 @@ export const stopAllSounds = () => {
         phrase.audioElement.currentTime = 0;
       })
     });
-  };
+  }
 };
 
 export const loadOutputDevices = () => {
-  return async (dispatch) => {
+  return async (dispatch: Dispatch) => {
     const devices = await navigator.mediaDevices.enumerateDevices();
     dispatch({
       type: LOADED_OUTPUT_DEVICES,
@@ -51,13 +48,13 @@ export const loadOutputDevices = () => {
   };
 };
 
-export const changeOutputDevice = id => {
-  return async (dispatch, getState) => {
+export const changeOutputDevice = (id: string) => {
+  return async (dispatch: Dispatch, getState: () => State) => {
     const { sections } = getState();
-    const phrases = [];
+    const phrases: Promise<undefined>[] = [];
 
     Object.keys(sections).forEach((section) => {
-      sections[section].phrases.forEach((phrase) => {
+      sections[section].phrases.forEach((phrase: Phrase) => {
         phrases.push(phrase.audioElement.setSinkId(id));
       });
     });

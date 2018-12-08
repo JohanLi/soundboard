@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { FunctionComponent, useState, useEffect } from 'react';
 import classNames from 'classnames';
 import { remote } from 'electron';
 
@@ -6,7 +6,7 @@ const remoteWindow = remote.getCurrentWindow();
 
 import styles from './header.css';
 
-const Header = () => {
+const Header: FunctionComponent = () => {
   const [isMaximized, setIsMaximized] = useState(false);
 
   useEffect(() => {

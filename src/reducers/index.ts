@@ -1,56 +1,72 @@
-import { lstatSync, readdirSync, readFileSync } from 'fs';
-import { join } from 'path';
-import { remote } from 'electron';
+import { Reducer } from 'redux';
+
+import { getMetadata } from '../helpers/metadata';
 
 import {
   CHANGE_SECTION,
   LOAD_SOUNDBOARD,
   LOADED_OUTPUT_DEVICES,
-  CHANGE_OUTPUT_DEVICE
+  CHANGE_OUTPUT_DEVICE,
 } from '../actions';
 
-const metadata = {};
-const getSoundboards = () => {
-  const soundboardsPath = remote.app.getAppPath() + '/public/soundboards';
-  const soundboards = readdirSync(soundboardsPath, 'utf8')
-    .filter(file => {
-      const absolutePath = join(soundboardsPath, file);
-      return lstatSync(absolutePath).isDirectory();
-    });
-
-  soundboards.forEach((soundboard) => {
-    const absolutePath = join(soundboardsPath, soundboard);
-    metadata[soundboard] = JSON.parse(readFileSync(`${absolutePath}/metadata.json`, 'utf8'));
-  });
-
-  const s = {};
-
-  soundboards.forEach(soundboard => {
-    s[soundboard] = {
-      name: metadata[soundboard].name,
+interface State {
+  soundboards: Soundboard;
+  activeSoundboard: string;
+  name: string;
+  sections: {
+    [key: string]: {
+      name: string;
+      phrases: Phrase[];
     };
-  });
+  };
+  activeSection: string;
+  devices: Device[];
+  activeDevice: string;
+}
 
-  return s;
-};
+interface Soundboard {
+  [key: string]: {
+    name: string;
+  };
+}
 
-const initialState = {
+interface Phrase {
+  name: string;
+  audioElement: HTMLAudioElement;
+}
+
+interface Device {
+  id: string;
+  label: string;
+}
+
+const initialState: State = {
   soundboards: {},
   activeSoundboard: null,
   name: null,
   sections: {},
   activeSection: null,
-  playing: [],
   devices: [],
   activeDevice: 'default',
 };
 
-export default (state = initialState, action) => {
+const reducer: Reducer<State> = (state = initialState, action) => {
   const { type, payload } = action;
 
   switch (type) {
     case LOAD_SOUNDBOARD: {
       const newState = Object.assign({}, state);
+      const metadata = getMetadata();
+
+      const soundboards: Soundboard = {};
+
+      Object.keys(metadata).forEach((soundboard) => {
+        soundboards[soundboard] = {
+          name: metadata[soundboard].name,
+        };
+      });
+
+      newState.soundboards = soundboards;
 
       if (payload) {
         if (payload === newState.activeSoundboard) {
@@ -60,7 +76,6 @@ export default (state = initialState, action) => {
         newState.activeSoundboard = payload;
         newState.sections = {};
       } else {
-        newState.soundboards = getSoundboards();
         newState.activeSoundboard = Object.keys(newState.soundboards)[0];
       }
 
@@ -107,4 +122,6 @@ export default (state = initialState, action) => {
       return state;
     }
   }
-}
+};
+
+export default reducer;

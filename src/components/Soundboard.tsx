@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { FunctionComponent, useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
 
@@ -7,7 +7,44 @@ import OutputDevice from './OutputDevice';
 import Phrase from './Phrase';
 import styles from './soundboard.css';
 
-const Soundboard = (props) => {
+interface Soundboards {
+  [key: string]: {
+    name: string;
+  }
+}
+
+interface Sections {
+  [key: string]: {
+    name: string;
+    phrases: Phrase[];
+  }
+}
+
+interface Phrase {
+  name: string;
+  audioElement: HTMLAudioElement;
+}
+
+interface Props {
+  soundboards: Soundboards,
+  activeSoundboard: string,
+  name: string,
+  sections: Sections,
+  activeSection: string,
+  changeSection: (section: string) => void;
+  loadSoundboard: (name?: string) => void;
+  stopAllSounds: () => void;
+}
+
+interface State {
+  soundboards: Soundboards,
+  activeSoundboard: string,
+  name: string,
+  sections: Sections,
+  activeSection: string,
+}
+
+const Soundboard: FunctionComponent<Props> = (props) => {
   const [dropdown, setDropdown] = useState(false);
 
   useEffect(() => {
@@ -17,7 +54,7 @@ const Soundboard = (props) => {
   }, []);
 
   useEffect(() => {
-    const handleKeypress = (e) => {
+    const handleKeypress = (e: KeyboardEvent) => {
       if (e.key === ' ') {
         props.stopAllSounds();
       }
@@ -37,7 +74,10 @@ const Soundboard = (props) => {
   const soundboards = Object.keys(props.soundboards).map((soundboard) => (
     <li
       key={soundboard}
-      onClick={() => props.loadSoundboard(soundboard)}
+      onClick={() => {
+        props.stopAllSounds();
+        props.loadSoundboard(soundboard);
+      }}
     >
       {props.soundboards[soundboard].name}
     </li>
@@ -80,7 +120,6 @@ const Soundboard = (props) => {
         key={phrase.name}
         name={phrase.name}
         audioElement={phrase.audioElement}
-        activeDevice={props.activeDevice}
       />
     ));
 
@@ -115,14 +154,12 @@ const Soundboard = (props) => {
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state: State) => ({
   soundboards: state.soundboards,
   activeSoundboard: state.activeSoundboard,
   name: state.name,
   sections: state.sections,
   activeSection: state.activeSection,
-  phrases: state.phrases,
-  activeDevice: state.activeDevice,
 });
 
 export default connect(

@@ -1,11 +1,28 @@
-import React, { useState, useEffect } from 'react';
+import React, { FunctionComponent, useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
 
 import { loadOutputDevices, changeOutputDevice } from '../actions';
 import styles from './outputdevice.css';
 
-const OutputDevice = (props) => {
+interface Props {
+  selected: Device;
+  nonSelected: Device[];
+  loadOutputDevices: () => void;
+  changeOutputDevice: (id: string) => void;
+}
+
+interface State {
+  devices: Device[];
+  activeDevice: string;
+}
+
+interface Device {
+  id: string;
+  label: string;
+}
+
+const OutputDevice: FunctionComponent<Props> = (props) => {
   const [dropdown, setDropdown] = useState(false);
 
   useEffect(() => {
@@ -14,15 +31,11 @@ const OutputDevice = (props) => {
     return () => null;
   }, []);
 
-  if (props.devices.length === 0) {
+  if (!props.selected) {
     return null;
   }
 
-  const selected = props.devices.find(device => device.id === props.activeDevice);
-
-  const others = props.devices.filter(device => device.id !== props.activeDevice);
-
-  const devices = others.map(device => (
+  const nonSelected = props.nonSelected.map(device => (
     <li
       onClick={() => props.changeOutputDevice(device.id)}
       key={device.id}
@@ -42,18 +55,18 @@ const OutputDevice = (props) => {
         Output:
       </div>
       <div className={styles.selected}>
-        {selected.label}
+        {props.selected.label}
         <ul className={dropdownClass}>
-          {devices}
+          {nonSelected}
         </ul>
       </div>
     </div>
   );
 };
 
-const mapStateToProps = state => ({
-  devices: state.devices,
-  activeDevice: state.activeDevice,
+const mapStateToProps = (state: State) => ({
+  selected: state.devices.find(device => device.id === state.activeDevice),
+  nonSelected: state.devices.filter(device => device.id !== state.activeDevice),
 });
 
 export default connect(

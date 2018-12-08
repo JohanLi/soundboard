@@ -1,12 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import React, { FunctionComponent, useState, useEffect } from 'react';
 
 import styles from './phrase.css';
 
-export default ({ name, audioElement }) => {
+interface Props {
+  name: string;
+  audioElement: HTMLAudioElement;
+}
+
+const Phrase: FunctionComponent<Props> = ({ name, audioElement }) => {
   const [percent, setPercent] = useState(0);
 
   useEffect(() => {
-    let requestId;
+    let requestId: number;
 
     const updateProgress = () => {
       const percent = (audioElement.currentTime / audioElement.duration) * 100;
@@ -48,4 +53,6 @@ export default ({ name, audioElement }) => {
       {name}
     </li>
   );
-}
+};
+
+export default Phrase;
