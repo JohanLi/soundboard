@@ -20,9 +20,19 @@ Cable. A goal would be to have this soundboard create its own virtual audio devi
 * Although being able to switch to the soundboard while in a game, this still causes some delay even when using windowed
 mode. Could selecting sounds be done via voice, or through one's phone?
 
-#### Setting up developer tools for React and Redux
+#### Developer notes
+
+##### Setting up developer tools for React and Redux
 
 A simple way to set up React Developer Tools and Redux DevTools for Electron is to use
 [electron-devtools-installer](https://github.com/MarshallOfSound/electron-devtools-installer). Copy the code snippets
 and run them once in the main process. The extensions will then be saved to `%appdata%/[name of app]/extensions`
 and persist between restarts.
+
+##### Typescript
+
+`"moduleResolution": "node"` has been added to `tsconfig.json` in order to pick up internal type definitions which,
+for instance, *redux* provides. https://stackoverflow.com/a/43019209
+
+`"allowSyntheticDefaultImports": true` has been added to allow imports like `import React from 'react'` instead of
+`import * as React from 'react'`. https://github.com/DefinitelyTyped/DefinitelyTyped/issues/5128

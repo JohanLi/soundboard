@@ -9,13 +9,14 @@ const config = {
     filename: 'app.js',
   },
   resolve: {
-    extensions: ['.js', '.jsx'],
+    extensions: [ '.tsx', '.ts', '.js' ]
   },
   module: {
     rules: [
       {
-        test: /\.(js|jsx)$/,
-        loader: 'babel-loader',
+        test: /\.tsx?$/,
+        use: 'ts-loader',
+        exclude: /node_modules/
       },
       {
         test: /\.css/,
@@ -51,7 +52,7 @@ if (process.env.NODE_ENV === 'development') {
     contentBase: `${__dirname}/public/`,
   };
 
-  config.devtool = 'cheap-eval-source-map';
+  config.devtool = 'inline-source-map';
 }
 
 module.exports = config;
