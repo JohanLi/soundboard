@@ -2,46 +2,21 @@ import React, { FunctionComponent, useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
 
-import { changeSection, stopAllSounds, loadSoundboard } from '../actions';
+import { changeSection, stopAllSounds, loadSoundboard } from '../action';
+import { ISoundboards, ISections, IState } from '../types';
 import OutputDevice from './OutputDevice';
 import Phrase from './Phrase';
 import styles from './soundboard.css';
 
-interface Soundboards {
-  [key: string]: {
-    name: string;
-  }
-}
-
-interface Sections {
-  [key: string]: {
-    name: string;
-    phrases: Phrase[];
-  }
-}
-
-interface Phrase {
-  name: string;
-  audioElement: HTMLAudioElement;
-}
-
 interface Props {
-  soundboards: Soundboards,
+  soundboards: ISoundboards,
   activeSoundboard: string,
   name: string,
-  sections: Sections,
+  sections: ISections,
   activeSection: string,
   changeSection: (section: string) => void;
   loadSoundboard: (name?: string) => void;
   stopAllSounds: () => void;
-}
-
-interface State {
-  soundboards: Soundboards,
-  activeSoundboard: string,
-  name: string,
-  sections: Sections,
-  activeSection: string,
 }
 
 const Soundboard: FunctionComponent<Props> = (props) => {
@@ -154,7 +129,7 @@ const Soundboard: FunctionComponent<Props> = (props) => {
   );
 };
 
-const mapStateToProps = (state: State) => ({
+const mapStateToProps = (state: IState) => ({
   soundboards: state.soundboards,
   activeSoundboard: state.activeSoundboard,
   name: state.name,

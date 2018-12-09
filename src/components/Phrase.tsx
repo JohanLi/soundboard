@@ -1,11 +1,7 @@
 import React, { FunctionComponent, useState, useEffect } from 'react';
 
+import { IPhrase as Props } from '../types';
 import styles from './phrase.css';
-
-interface Props {
-  name: string;
-  audioElement: HTMLAudioElement;
-}
 
 const Phrase: FunctionComponent<Props> = ({ name, audioElement }) => {
   const [percent, setPercent] = useState(0);

@@ -4,7 +4,7 @@ import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
 import { Provider } from 'react-redux';
 
-import soundboard from './reducers';
+import reducer from './reducer';
 import App from './components/App';
 import './index.css';
 
@@ -16,7 +16,7 @@ declare global {
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = createStore(
-  soundboard,
+  reducer,
   composeEnhancers(applyMiddleware(thunk)),
 );
 

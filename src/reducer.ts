@@ -1,46 +1,15 @@
 import { Reducer } from 'redux';
 
-import { getMetadata } from '../helpers/metadata';
-
 import {
   CHANGE_SECTION,
   LOAD_SOUNDBOARD,
   LOADED_OUTPUT_DEVICES,
   CHANGE_OUTPUT_DEVICE,
-} from '../actions';
+} from './action';
+import { IState, ISoundboards } from './types';
+import { getMetadata } from './helpers/metadata';
 
-interface State {
-  soundboards: Soundboard;
-  activeSoundboard: string;
-  name: string;
-  sections: {
-    [key: string]: {
-      name: string;
-      phrases: Phrase[];
-    };
-  };
-  activeSection: string;
-  devices: Device[];
-  activeDevice: string;
-}
-
-interface Soundboard {
-  [key: string]: {
-    name: string;
-  };
-}
-
-interface Phrase {
-  name: string;
-  audioElement: HTMLAudioElement;
-}
-
-interface Device {
-  id: string;
-  label: string;
-}
-
-const initialState: State = {
+const initialState: IState = {
   soundboards: {},
   activeSoundboard: null,
   name: null,
@@ -50,7 +19,7 @@ const initialState: State = {
   activeDevice: 'default',
 };
 
-const reducer: Reducer<State> = (state = initialState, action) => {
+const reducer: Reducer<IState> = (state = initialState, action) => {
   const { type, payload } = action;
 
   switch (type) {
@@ -58,7 +27,7 @@ const reducer: Reducer<State> = (state = initialState, action) => {
       const newState = Object.assign({}, state);
       const metadata = getMetadata();
 
-      const soundboards: Soundboard = {};
+      const soundboards: ISoundboards = {};
 
       Object.keys(metadata).forEach((soundboard) => {
         soundboards[soundboard] = {

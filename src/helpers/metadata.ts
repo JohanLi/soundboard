@@ -7,14 +7,12 @@ interface IMetadata {
   [key: string]: {
     name: string;
     sections: {
-      [key: string]: IPhrase[];
+      [key: string]: {
+        name: string;
+        file: string;
+      }[];
     };
   };
-}
-
-interface IPhrase {
-  name: string;
-  file: string;
 }
 
 export const getMetadata = () => {

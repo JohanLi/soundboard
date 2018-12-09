@@ -1,5 +1,6 @@
 import { Dispatch } from 'redux';
-import { State, Phrase } from '../types';
+
+import { IState, IPhrase } from './types';
 
 export const LOAD_SOUNDBOARD = 'LOAD_SOUNDBOARD';
 export const CHANGE_SECTION = 'CHANGE_SECTION';
@@ -21,7 +22,7 @@ export const changeSection = (section: string) => {
 };
 
 export const stopAllSounds = () => {
-  return (dispatch: Dispatch, getState: () => State) => {
+  return (dispatch: Dispatch, getState: () => IState) => {
     const { sections } = getState();
 
     Object.keys(sections).forEach((section) => {
@@ -49,12 +50,12 @@ export const loadOutputDevices = () => {
 };
 
 export const changeOutputDevice = (id: string) => {
-  return async (dispatch: Dispatch, getState: () => State) => {
+  return async (dispatch: Dispatch, getState: () => IState) => {
     const { sections } = getState();
     const phrases: Promise<undefined>[] = [];
 
     Object.keys(sections).forEach((section) => {
-      sections[section].phrases.forEach((phrase: Phrase) => {
+      sections[section].phrases.forEach((phrase: IPhrase) => {
         phrases.push(phrase.audioElement.setSinkId(id));
       });
     });

@@ -2,24 +2,15 @@ import React, { FunctionComponent, useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
 
-import { loadOutputDevices, changeOutputDevice } from '../actions';
+import { loadOutputDevices, changeOutputDevice } from '../action';
+import { IState, IDevice } from '../types';
 import styles from './outputdevice.css';
 
 interface Props {
-  selected: Device;
-  nonSelected: Device[];
+  selected: IDevice;
+  nonSelected: IDevice[];
   loadOutputDevices: () => void;
   changeOutputDevice: (id: string) => void;
-}
-
-interface State {
-  devices: Device[];
-  activeDevice: string;
-}
-
-interface Device {
-  id: string;
-  label: string;
 }
 
 const OutputDevice: FunctionComponent<Props> = (props) => {
@@ -64,7 +55,7 @@ const OutputDevice: FunctionComponent<Props> = (props) => {
   );
 };
 
-const mapStateToProps = (state: State) => ({
+const mapStateToProps = (state: IState) => ({
   selected: state.devices.find(device => device.id === state.activeDevice),
   nonSelected: state.devices.filter(device => device.id !== state.activeDevice),
 });
