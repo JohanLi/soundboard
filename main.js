@@ -1,4 +1,4 @@
-const { app, BrowserWindow } = require('electron');
+const { app, BrowserWindow, globalShortcut } = require('electron');
 
 let mainWindow;
 
@@ -18,6 +18,10 @@ function createWindow () {
 
   mainWindow.on('closed', function () {
     mainWindow = null;
+  });
+
+  globalShortcut.register('CommandOrControl+Space', () => {
+    mainWindow.show();
   });
 }
 

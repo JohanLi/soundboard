@@ -1,6 +1,9 @@
 import { Dispatch } from 'redux';
+import { remote } from 'electron';
 
 import { IPhrase, IState } from './types';
+
+const remoteWindow = remote.getCurrentWindow();
 
 export const LOAD_SOUNDBOARD = 'LOAD_SOUNDBOARD';
 export const CHANGE_SECTION = 'CHANGE_SECTION';
@@ -69,4 +72,8 @@ export const changeOutputDevice = (id: string) => {
       payload: id,
     });
   };
+};
+
+export const minimizeWindow = () => {
+  remoteWindow.minimize();
 };

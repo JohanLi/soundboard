@@ -2,7 +2,7 @@ import React, { FunctionComponent, useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
 
-import { changeSection, stopAllSounds, loadSoundboard } from '../action';
+import { changeSection, stopAllSounds, loadSoundboard, minimizeWindow } from '../action';
 import { ISoundboards, ISections, IState } from '../types';
 import OutputDevice from './OutputDevice';
 import Phrase from './Phrase';
@@ -17,6 +17,7 @@ interface Props {
   changeSection: (section: string) => void;
   loadSoundboard: (name?: string) => void;
   stopAllSounds: () => void;
+  minimizeWindow: () => void;
 }
 
 const Soundboard: FunctionComponent<Props> = (props) => {
@@ -95,6 +96,7 @@ const Soundboard: FunctionComponent<Props> = (props) => {
         key={phrase.name}
         name={phrase.name}
         audioElement={phrase.audioElement}
+        minimizeWindow={props.minimizeWindow}
       />
     ));
 
@@ -143,5 +145,6 @@ export default connect(
     changeSection,
     stopAllSounds,
     loadSoundboard,
+    minimizeWindow,
   },
 )(Soundboard);

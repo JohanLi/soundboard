@@ -1,16 +1,21 @@
-import React, { FunctionComponent, useState, useEffect } from 'react';
+import React, { FunctionComponent, MouseEvent, useState, useEffect } from 'react';
 
-import { IPhrase as Props } from '../types';
 import styles from './phrase.css';
 
-const Phrase: FunctionComponent<Props> = ({ name, audioElement }) => {
+interface Props {
+  name: string;
+  audioElement: HTMLAudioElement;
+  minimizeWindow: () => void;
+}
+
+const Phrase: FunctionComponent<Props> = (props) => {
   const [percent, setPercent] = useState(0);
 
   useEffect(() => {
     let requestId: number;
 
     const updateProgress = () => {
-      const percent = (audioElement.currentTime / audioElement.duration) * 100;
+      const percent = (props.audioElement.currentTime / props.audioElement.duration) * 100;
       setPercent(percent);
 
       requestId = window.requestAnimationFrame(updateProgress);
@@ -21,22 +26,26 @@ const Phrase: FunctionComponent<Props> = ({ name, audioElement }) => {
       window.cancelAnimationFrame(requestId);
     };
 
-    audioElement.addEventListener('play', updateProgress);
-    audioElement.addEventListener('pause', cancelUpdate);
+    props.audioElement.addEventListener('play', updateProgress);
+    props.audioElement.addEventListener('pause', cancelUpdate);
 
     return () => {
       cancelUpdate();
-      audioElement.removeEventListener('play', updateProgress);
-      audioElement.removeEventListener('pause', cancelUpdate);
+      props.audioElement.removeEventListener('play', updateProgress);
+      props.audioElement.removeEventListener('pause', cancelUpdate);
     };
   }, []);
 
-  const onClick = () => {
-    if (!audioElement.paused) {
-      audioElement.pause();
-      audioElement.currentTime = 0;
+  const onClick = (e: MouseEvent) => {
+    if (!props.audioElement.paused) {
+      props.audioElement.pause();
+      props.audioElement.currentTime = 0;
     } else {
-      audioElement.play();
+      props.audioElement.play();
+
+      if (e.ctrlKey || e.metaKey) {
+        props.minimizeWindow();
+      }
     }
   };
 
@@ -46,7 +55,7 @@ const Phrase: FunctionComponent<Props> = ({ name, audioElement }) => {
       onClick={onClick}
       style={{ background: `linear-gradient(90deg, #ccc ${percent}%, #ddd 0%)` }}
     >
-      {name}
+      {props.name}
     </li>
   );
 };

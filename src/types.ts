@@ -23,7 +23,7 @@ export interface ISections {
 
 export interface IPhrase {
   name: string;
-  audioElement?: HTMLAudioElement;
+  audioElement: HTMLAudioElement;
 }
 
 export interface IDevice {
