@@ -1,34 +1,33 @@
-const { lstatSync, readdirSync, readFileSync } = require('fs');
-const { join } = require('path');
-import { remote } from 'electron';
+import { lstatSync, readdirSync, readFileSync } from 'fs';
+import { join } from 'path';
 
-interface Metadata {
+import { SOUNDBOARDS_PATH } from './constants';
+
+interface IMetadata {
   [key: string]: {
     name: string;
     sections: {
-      [key: string]: Phrase[];
+      [key: string]: IPhrase[];
     };
   };
 }
 
-interface Phrase {
+interface IPhrase {
   name: string;
   file: string;
 }
 
 export const getMetadata = () => {
-  const path = remote.app.getAppPath() + '/public/soundboards';
-
-  const directories = readdirSync(path, 'utf8')
+  const directories = readdirSync(SOUNDBOARDS_PATH, 'utf8')
     .filter((directory: string) => {
-      const absolutePath = join(path, directory);
+      const absolutePath = join(SOUNDBOARDS_PATH, directory);
       return lstatSync(absolutePath).isDirectory();
     });
 
-  const metadata: Metadata = {};
+  const metadata: IMetadata = {};
   directories.forEach((directory: string) => {
-    const absolutePath = join(path, directory);
-    metadata[directory] = JSON.parse(readFileSync(`${absolutePath}/metadata.json`, 'utf8'));
+    const metadataPath = join(SOUNDBOARDS_PATH, directory, 'metadata.json');
+    metadata[directory] = JSON.parse(readFileSync(metadataPath, 'utf8'));
   });
 
   return metadata;
