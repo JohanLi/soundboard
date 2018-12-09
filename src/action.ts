@@ -1,6 +1,6 @@
 import { Dispatch } from 'redux';
 
-import { IState, IPhrase } from './types';
+import { IPhrase, IState } from './types';
 
 export const LOAD_SOUNDBOARD = 'LOAD_SOUNDBOARD';
 export const CHANGE_SECTION = 'CHANGE_SECTION';
@@ -29,9 +29,9 @@ export const stopAllSounds = () => {
       sections[section].phrases.forEach((phrase) => {
         phrase.audioElement.pause();
         phrase.audioElement.currentTime = 0;
-      })
+      });
     });
-  }
+  };
 };
 
 export const loadOutputDevices = () => {
@@ -40,8 +40,8 @@ export const loadOutputDevices = () => {
     dispatch({
       type: LOADED_OUTPUT_DEVICES,
       payload: devices
-        .filter(device => device.kind === 'audiooutput')
-        .map(device => ({
+        .filter((device) => device.kind === 'audiooutput')
+        .map((device) => ({
           id: device.deviceId,
           label: device.label,
         })),
@@ -52,7 +52,7 @@ export const loadOutputDevices = () => {
 export const changeOutputDevice = (id: string) => {
   return async (dispatch: Dispatch, getState: () => IState) => {
     const { sections } = getState();
-    const phrases: Promise<undefined>[] = [];
+    const phrases: Array<Promise<undefined>> = [];
 
     Object.keys(sections).forEach((section) => {
       sections[section].phrases.forEach((phrase: IPhrase) => {

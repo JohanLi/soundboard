@@ -7,10 +7,10 @@ interface IMetadata {
   [key: string]: {
     name: string;
     sections: {
-      [key: string]: {
+      [key: string]: Array<{
         name: string;
         file: string;
-      }[];
+      }>;
     };
   };
 }

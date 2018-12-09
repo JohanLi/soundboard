@@ -62,7 +62,7 @@ const reducer: Reducer<IState> = (state = initialState, action) => {
               audioElement,
             };
           }),
-        }
+        };
       });
 
       newState.activeSection = Object.keys(metadata[newState.activeSoundboard].sections)[0];
@@ -79,13 +79,13 @@ const reducer: Reducer<IState> = (state = initialState, action) => {
       return {
         ...state,
         devices: payload,
-      }
+      };
     }
     case CHANGE_OUTPUT_DEVICE: {
       return {
         ...state,
         activeDevice: payload,
-      }
+      };
     }
     default: {
       return state;
