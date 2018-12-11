@@ -24,6 +24,10 @@ export interface ISections {
 export interface IPhrase {
   name: string;
   audioElement: HTMLAudioElement;
+  match?: {
+    type: string;
+    highlight: number[];
+  };
 }
 
 export interface IDevice {

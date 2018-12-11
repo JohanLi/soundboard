@@ -5,6 +5,7 @@ import classNames from 'classnames';
 import { changeSection, stopAllSounds, loadSoundboard, minimizeWindow } from '../action';
 import { ISoundboards, ISections, IState } from '../types';
 import OutputDevice from './OutputDevice';
+import Search from './Search';
 import Phrase from './Phrase';
 import styles from './soundboard.css';
 
@@ -127,6 +128,7 @@ const Soundboard: FunctionComponent<Props> = (props) => {
         {sections}
       </ul>
       {sectionsOfPhrases}
+      <Search />
     </main>
   );
 };

@@ -1,10 +1,9 @@
 import React, { FunctionComponent, MouseEvent, useState, useEffect } from 'react';
 
 import styles from './phrase.css';
+import { IPhrase } from '../types';
 
-interface Props {
-  name: string;
-  audioElement: HTMLAudioElement;
+interface Props extends IPhrase {
   minimizeWindow: () => void;
 }
 
@@ -49,13 +48,28 @@ const Phrase: FunctionComponent<Props> = (props) => {
     }
   };
 
+  let name: any = props.name;
+
+  if (props.match) {
+    const toHighlight: any = props.match.highlight.map((index) => props.name[index]);
+
+    const highlighted = toHighlight.map((character: string) => <strong key={character}>{character}</strong>);
+
+    name = [];
+
+    for (let i = 0; i < props.match.highlight.length; i++) {
+      name.push(highlighted[i]);
+      name.push(props.name.slice(props.match.highlight[i] + 1, props.match.highlight[i + 1]));
+    }
+  }
+
   return (
     <li
       className={styles.button}
       onClick={onClick}
       style={{ background: `linear-gradient(90deg, #ccc ${percent}%, #ddd 0%)` }}
     >
-      {props.name}
+      {name}
     </li>
   );
 };
