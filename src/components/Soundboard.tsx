@@ -25,12 +25,6 @@ const Soundboard: FunctionComponent<Props> = (props) => {
   const [dropdown, setDropdown] = useState(false);
 
   useEffect(() => {
-    props.loadSoundboard();
-
-    return () => null;
-  }, []);
-
-  useEffect(() => {
     const handleKeypress = (e: KeyboardEvent) => {
       if (e.key === ' ') {
         props.stopAllSounds();
@@ -113,22 +107,11 @@ const Soundboard: FunctionComponent<Props> = (props) => {
 
   return (
     <main className={styles.main} style={{ backgroundImage: `url('soundboards/${props.activeSoundboard}/avatar.png')` }}>
-      <div className={styles.top}>
-        <div className={styles.switch} onClick={() => setDropdown(!dropdown)}>
-          <div className={styles.name}>
-            {props.soundboards[props.activeSoundboard].name}
-          </div>
-          <div className={dropdownClass}>
-            {soundboards}
-          </div>
-        </div>
-        <OutputDevice />
-      </div>
+      <Search />
       <ul className={styles.sections}>
         {sections}
       </ul>
       {sectionsOfPhrases}
-      <Search />
     </main>
   );
 };

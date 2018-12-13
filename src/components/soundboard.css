@@ -4,66 +4,9 @@
   background: no-repeat right bottom;
 }
 
-.top {
-  display: flex;
-  align-items: center;
-}
-
-.switch {
-  cursor: pointer;
-  position: relative;
-  user-select: none;
-  margin: 20px 0;
-}
-
-.name {
-  display: flex;
-  align-items: center;
-  font-weight: 700;
-  font-size: 32px;
-}
-
-.name::after {
-  display: inline-block;
-  width: 0;
-  height: 0;
-  margin-left: 6px;
-  vertical-align: 2px;
-  content: "";
-  border-top: 6px solid;
-  border-right: 6px solid transparent;
-  border-bottom: 0;
-  border-left: 6px solid transparent;
-}
-
-.dropdown {
-  display: none;
-  position: absolute;
-  width: 400px;
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  background: #000;
-  color: #fff;
-  top: calc(100% + 10px);
-  left: -10px;
-}
-
-.dropdown li {
-  padding: 10px;
-}
-
-.dropdown li:hover {
-  background: #222;
-}
-
-.dropdown.active {
-  display: block;
-}
-
 .sections {
   list-style: none;
-  margin: 20px 0;
+  margin: 0 0 20px 0;
   padding: 0;
   display: flex;
   align-items: center;

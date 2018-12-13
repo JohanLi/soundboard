@@ -1,9 +1,14 @@
 .button {
   width: 250px;
   cursor: pointer;
-  padding: 15px;
+  height: 50px;
+  line-height: 50px;
+  padding: 0 15px;
   background: linear-gradient(90deg, #ccc 0%, #ddd 0%);
   margin-right: 20px;
   margin-bottom: 20px;
   user-select: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }

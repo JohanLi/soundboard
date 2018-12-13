@@ -23,6 +23,12 @@ function createWindow () {
   globalShortcut.register('CommandOrControl+Space', () => {
     mainWindow.show();
   });
+
+  if (process.env.NODE_ENV === 'development') {
+    globalShortcut.register('F5', () => {
+      mainWindow.reload();
+    });
+  }
 }
 
 app.on('ready', createWindow);

@@ -1,6 +1,4 @@
-.search {
-  margin-top: 20px;
-}
+.search {}
 
 .results {
   display: flex;
@@ -8,6 +6,11 @@
   list-style: none;
   margin: 0;
   padding: 0;
+}
+
+.results.expand {
+  padding-bottom: 20px;
+  min-height: 100px;
 }
 
 .input {

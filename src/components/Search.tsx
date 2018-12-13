@@ -6,6 +6,7 @@ import { wordStartsWith, acronymStartsWith } from '../helpers/match';
 import { IState, ISections } from '../types';
 import Phrase from './Phrase';
 import styles from './search.css';
+import classNames from 'classnames';
 
 interface Props {
   sections: ISections;
@@ -14,6 +15,7 @@ interface Props {
 
 const Search: FunctionComponent<Props> = (props) => {
   const [input, setInput] = useState('');
+  const [focus, setFocus] = useState(false);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setInput(e.target.value);
@@ -41,10 +43,24 @@ const Search: FunctionComponent<Props> = (props) => {
       ));
   }
 
+  const resultsClass = classNames({
+    [styles.results]: true,
+    [styles.expand]: focus || resultPhrases.length,
+  });
+
   return (
     <div className={styles.search}>
-      <input type="text" value={input} onChange={handleChange} className={styles.input} onClick={() => setInput('')} />
-      <div className={styles.results}>
+      <input
+        type="text"
+        value={input}
+        onChange={handleChange}
+        onFocus={() => setFocus(true)}
+        onBlur={() => setFocus(false)}
+        className={styles.input}
+        onClick={() => setInput('')}
+        placeholder="Search"
+      />
+      <div className={resultsClass}>
         {resultPhrases}
       </div>
     </div>
