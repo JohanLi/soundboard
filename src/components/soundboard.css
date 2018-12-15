@@ -31,14 +31,10 @@
   border-bottom-color: #666;
 }
 
-.sectionOfPhrases {
+.phrases {
   display: flex;
   flex-wrap: wrap;
   list-style: none;
   margin: 0;
   padding: 0;
-}
-
-.sectionOfPhrases.hidden {
-  display: none;
 }

@@ -6,15 +6,15 @@ import {
   LOADED_OUTPUT_DEVICES,
   CHANGE_OUTPUT_DEVICE,
 } from './action';
-import { IState, ISoundboards } from './types';
+import { IState, ISoundboards, IPhrases } from './types';
 import { getMetadata } from './helpers/metadata';
 
 const initialState: IState = {
   soundboards: {},
   activeSoundboard: null,
-  name: null,
   sections: {},
   activeSection: null,
+  phrases: {},
   devices: [],
   activeDevice: 'default',
 };
@@ -24,9 +24,7 @@ const reducer: Reducer<IState> = (state = initialState, action) => {
 
   switch (type) {
     case LOAD_SOUNDBOARD: {
-      const newState = Object.assign({}, state);
       const metadata = getMetadata();
-
       const soundboards: ISoundboards = {};
 
       Object.keys(metadata).forEach((soundboard) => {
@@ -35,45 +33,41 @@ const reducer: Reducer<IState> = (state = initialState, action) => {
         };
       });
 
-      newState.soundboards = soundboards;
+      let activeSoundboard = Object.keys(soundboards)[0];
 
       if (payload) {
-        if (payload === newState.activeSoundboard) {
-          return state;
-        }
-
-        newState.activeSoundboard = payload;
-        newState.sections = {};
-      } else {
-        newState.activeSoundboard = Object.keys(newState.soundboards)[0];
+        activeSoundboard = payload;
       }
 
-      newState.name = metadata[newState.activeSoundboard].name;
+      const sections = metadata[activeSoundboard].sections;
+      const activeSection = Object.keys(sections)[0];
 
-      Object.keys(metadata[newState.activeSoundboard].sections).forEach((section) => {
-        newState.sections[section] = {
-          name: section,
-          phrases: metadata[newState.activeSoundboard].sections[section].map((phrase) => {
-            const audioElement = document.createElement('audio');
-            audioElement.src = `soundboards/${newState.activeSoundboard}/files/${phrase.file}`;
+      const phrases: IPhrases = {};
 
-            return {
-              name: phrase.name,
-              audioElement,
-            };
-          }),
+      Object.keys(metadata[activeSoundboard].phrases).forEach((phrase) => {
+        const audioElement = document.createElement('audio');
+        audioElement.src = `soundboards/${activeSoundboard}/files/${phrase}`;
+
+        phrases[phrase] = {
+          name: metadata[activeSoundboard].phrases[phrase].name,
+          audioElement,
         };
       });
 
-      newState.activeSection = Object.keys(metadata[newState.activeSoundboard].sections)[0];
-
-      return newState;
+      return {
+        ...state,
+        soundboards,
+        activeSoundboard,
+        sections,
+        activeSection,
+        phrases,
+      };
     }
     case CHANGE_SECTION: {
-      const newState = Object.assign({}, state);
-      newState.activeSection = payload;
-
-      return newState;
+      return {
+        ...state,
+        activeSection: payload,
+      };
     }
     case LOADED_OUTPUT_DEVICES: {
       return {

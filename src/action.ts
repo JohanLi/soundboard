@@ -1,7 +1,7 @@
 import { Dispatch } from 'redux';
 import { remote } from 'electron';
 
-import { IPhrase, IState } from './types';
+import { IState } from './types';
 
 const remoteWindow = remote.getCurrentWindow();
 
@@ -26,13 +26,11 @@ export const changeSection = (section: string) => {
 
 export const stopAllSounds = () => {
   return (dispatch: Dispatch, getState: () => IState) => {
-    const { sections } = getState();
+    const { phrases } = getState();
 
-    Object.keys(sections).forEach((section) => {
-      sections[section].phrases.forEach((phrase) => {
-        phrase.audioElement.pause();
-        phrase.audioElement.currentTime = 0;
-      });
+    Object.keys(phrases).forEach((phraseId) => {
+      phrases[phraseId].audioElement.pause();
+      phrases[phraseId].audioElement.currentTime = 0;
     });
   };
 };
@@ -54,17 +52,15 @@ export const loadOutputDevices = () => {
 
 export const changeOutputDevice = (id: string) => {
   return async (dispatch: Dispatch, getState: () => IState) => {
-    const { sections } = getState();
-    const phrases: Array<Promise<undefined>> = [];
+    const { phrases } = getState();
+    const setSinkIds: Array<Promise<undefined>> = [];
 
-    Object.keys(sections).forEach((section) => {
-      sections[section].phrases.forEach((phrase: IPhrase) => {
-        phrases.push(phrase.audioElement.setSinkId(id));
-      });
+    Object.keys(phrases).forEach((phraseId) => {
+      setSinkIds.push(phrases[phraseId].audioElement.setSinkId(id));
     });
 
     try {
-      await Promise.all(phrases);
+      await Promise.all(setSinkIds);
     } catch(e) {}
 
     dispatch({
@@ -76,4 +72,17 @@ export const changeOutputDevice = (id: string) => {
 
 export const minimizeWindow = () => {
   remoteWindow.minimize();
+};
+
+export const play = (id: string) => {
+  return (dispatch: Dispatch, getState: () => IState) => {
+    const { phrases } = getState();
+
+    if (!phrases[id].audioElement.paused) {
+      phrases[id].audioElement.pause();
+      phrases[id].audioElement.currentTime = 0;
+    } else {
+      phrases[id].audioElement.play();
+    }
+  };
 };

@@ -21,6 +21,10 @@ const Menu: FunctionComponent<Props> = (props) => {
     return () => null;
   }, []);
 
+  if (Object.keys(props.soundboards).length === 0) {
+    return null;
+  }
+
   const items = Object.keys(props.soundboards).map((soundboard) => {
     const itemClass = classNames({
       [styles.item]: true,
@@ -29,6 +33,7 @@ const Menu: FunctionComponent<Props> = (props) => {
 
     return (
       <div
+        key={soundboard}
         className={itemClass}
         onClick={() => {
           props.stopAllSounds();
@@ -50,7 +55,6 @@ const Menu: FunctionComponent<Props> = (props) => {
 const mapStateToProps = (state: IState) => ({
   soundboards: state.soundboards,
   activeSoundboard: state.activeSoundboard,
-  name: state.name,
   sections: state.sections,
   activeSection: state.activeSection,
 });

@@ -1,16 +1,20 @@
-import React, { FunctionComponent, ChangeEvent, useState } from 'react';
+import React, { FunctionComponent, ChangeEvent, KeyboardEvent, useState } from 'react';
 import { connect } from 'react-redux';
 
-import { minimizeWindow } from '../action';
+import { minimizeWindow, play } from '../action';
 import { wordStartsWith, acronymStartsWith } from '../helpers/match';
-import { IState, ISections } from '../types';
+import { IState, ISections, IPhrases, IPhrase } from '../types';
 import Phrase from './Phrase';
 import styles from './search.css';
 import classNames from 'classnames';
 
 interface Props {
+  activeSoundboard: string;
   sections: ISections;
+  phrases: IPhrases;
+  name: string;
   minimizeWindow: () => void;
+  play: (id: string) => void;
 }
 
 const Search: FunctionComponent<Props> = (props) => {
@@ -21,20 +25,35 @@ const Search: FunctionComponent<Props> = (props) => {
     setInput(e.target.value);
   };
 
-  const phrases = Object.keys(props.sections).reduce((phrases, section) => {
-    return [...phrases, ...props.sections[section].phrases];
-  }, []);
+  const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      props.play(matchedPhrases[0].id);
+      setInput('');
+    }
 
-  let resultPhrases: any[] = [];
+    if (e.key === 'Escape') {
+      e.currentTarget.blur();
+      setInput('');
+    }
+  };
+
+  let phrases: any[] = [];
+  let matchedPhrases: IPhrase[] = [];
 
   if (input) {
-    resultPhrases = phrases
+    matchedPhrases = Object.keys(props.phrases)
+      .map((phraseId) => ({
+        id: phraseId,
+        ...props.phrases[phraseId],
+      }))
       .map((phrase) => wordStartsWith(phrase, input))
       .map((phrase) => acronymStartsWith(phrase, input))
-      .filter((phrase) => phrase.match)
+      .filter((phrase) => phrase.match);
+
+    phrases = matchedPhrases
       .map((phrase) => (
         <Phrase
-          key={phrase.name}
+          key={phrase.id}
           name={phrase.name}
           audioElement={phrase.audioElement}
           match={phrase.match}
@@ -45,35 +64,45 @@ const Search: FunctionComponent<Props> = (props) => {
 
   const resultsClass = classNames({
     [styles.results]: true,
-    [styles.expand]: focus || resultPhrases.length,
+    [styles.expand]: focus || phrases.length,
   });
 
   return (
     <div className={styles.search}>
-      <input
-        type="text"
-        value={input}
-        onChange={handleChange}
-        onFocus={() => setFocus(true)}
-        onBlur={() => setFocus(false)}
-        className={styles.input}
-        onClick={() => setInput('')}
-        placeholder="Search"
-      />
+      <div className={styles.top}>
+        <input
+          type="text"
+          value={input}
+          onChange={handleChange}
+          onFocus={() => setFocus(true)}
+          onBlur={() => setFocus(false)}
+          onKeyDown={handleKeyDown}
+          className={styles.input}
+          onClick={() => setInput('')}
+          placeholder="Search"
+        />
+        <div className={styles.name}>
+          {props.name}
+        </div>
+      </div>
       <div className={resultsClass}>
-        {resultPhrases}
+        {phrases}
       </div>
     </div>
   );
 };
 
 const mapStateToProps = (state: IState) => ({
+  activeSoundboard: state.activeSoundboard,
   sections: state.sections,
+  phrases: state.phrases,
+  name: state.soundboards[state.activeSoundboard].name,
 });
 
 export default connect(
   mapStateToProps,
   {
     minimizeWindow,
+    play,
   }
 )(Search);

@@ -7,10 +7,16 @@ interface IMetadata {
   [key: string]: {
     name: string;
     sections: {
-      [key: string]: Array<{
+      [key: string]: {
+        name: string;
+        phrases: string[];
+      };
+    };
+    phrases: {
+      [key: string]: {
         name: string;
         file: string;
-      }>;
+      };
     };
   };
 }

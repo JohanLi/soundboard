@@ -1,251 +1,327 @@
 {
   "name": "Arnold Schwarzenegger",
   "sections": {
-    "pleasantries": [
-      {
-        "name": "Hi",
-        "file": "hi.mp3"
-      },
-      {
-        "name": "Sup",
-        "file": "sup.mp3"
-      },
-      {
-        "name": "Good Morning",
-        "file": "good-morning.mp3"
-      },
-      {
-        "name": "What´s Going On",
-        "file": "whats-going-on.mp3"
-      },
-      {
-        "name": "Good",
-        "file": "good.mp3"
-      },
-      {
-        "name": "Thank You",
-        "file": "thank-you.mp3"
-      },
-      {
-        "name": "Sorry",
-        "file": "sorry.mp3"
-      },
-      {
-        "name": "Don´t Worry",
-        "file": "dont-worry.mp3"
-      },
-      {
-        "name": "Get to Know You",
-        "file": "get-to-know-you.mp3"
-      },
-      {
-        "name": "Who Are You",
-        "file": "who-are-you.mp3"
-      },
-      {
-        "name": "Good Bye",
-        "file": "good-bye.mp3"
-      },
-      {
-        "name": "Hasta La Vista",
-        "file": "hasta-la-vista.mp3"
-      },
-      {
-        "name": "I´m Back",
-        "file": "im-back.mp3"
-      }
-    ],
-    "replies": [
-      {
-        "name": "Affirmative",
-        "file": "affirmative.mp3"
-      },
-      {
-        "name": "Yes",
-        "file": "yes.mp3"
-      },
-      {
-        "name": "Yes 2",
-        "file": "yes-2.mp3"
-      },
-      {
-        "name": "Absolutely Yeah",
-        "file": "absolutely-yeah.mp3"
-      },
-      {
-        "name": "Sure",
-        "file": "sure.mp3"
-      },
-      {
-        "name": "Exactly",
-        "file": "exactly.mp3"
-      },
-      {
-        "name": "No",
-        "file": "no.mp3"
-      },
-      {
-        "name": "No 2",
-        "file": "no-2.mp3"
-      },
-      {
-        "name": "Negative",
-        "file": "negative.mp3"
-      },
-      {
-        "name": "Don´t Want to Get Into",
-        "file": "dont-want-to-get-into.mp3"
-      },
-      {
-        "name": "Not Authorized",
-        "file": "not-authorized.mp3"
-      },
-      {
-        "name": "Unable To Comply",
-        "file": "unable-to-comply.mp3"
-      },
-      {
-        "name": "I Don´t Know",
-        "file": "i-dont-know.mp3"
-      }
-    ],
-    "statements": [
-      {
-        "name": "Come On",
-        "file": "come-on.mp3"
-      },
-      {
-        "name": "Game Over",
-        "file": "game-over.mp3"
-      },
-      {
-        "name": "Most Important Money",
-        "file": "most-important-money.mp3"
-      },
-      {
-        "name": "Need a Vacation",
-        "file": "need-a-vacation.mp3"
-      },
-      {
-        "name": "Take a Shower",
-        "file": "take-a-shower.mp3"
-      },
-      {
-        "name": "WTF is Going On",
-        "file": "wtf-is-going-on.mp3"
-      },
-      {
-        "name": "Protect You",
-        "file": "protect-you.mp3"
-      },
-      {
-        "name": "Cannot Jeopardize Mission",
-        "file": "cannot-jeopardize-mission.mp3"
-      },
-      {
-        "name": "Escape the Blast Zones",
-        "file": "escape-the-blast-zones.mp3"
-      },
-      {
-        "name": "Trying to Kill Me",
-        "file": "trying-to-kill-me.mp3"
-      },
-      {
-        "name": "I Need Your Help",
-        "file": "i-need-your-help.mp3"
-      },
-      {
-        "name": "Count On Me",
-        "file": "count-on-me.mp3"
-      }
-    ],
-    "counters": [
-      {
-        "name": "It Doesn´t Matter",
-        "file": "it-doesnt-matter.mp3"
-      },
-      {
-        "name": "Story Straight",
-        "file": "story-straight.mp3"
-      },
-      {
-        "name": "Don´t Be Ridiculous",
-        "file": "dont-be-ridiculous.mp3"
-      },
-      {
-        "name": "Don´t Bullshit Me",
-        "file": "dont-bullshit-me.mp3"
-      },
-      {
-        "name": "Pressing Charges",
-        "file": "pressing-charges.mp3"
-      },
-      {
-        "name": "You Are Disgusting",
-        "file": "you-are-disgusting.mp3"
-      },
-      {
-        "name": "You´re Lying",
-        "file": "youre-lying.mp3"
-      },
-      {
-        "name": "Just Doing My Job",
-        "file": "just-doing-my-job.mp3"
-      },
-      {
-        "name": "I Work Alone",
-        "file": "i-work-alone.mp3"
-      },
-      {
-        "name": "Don´t Know You",
-        "file": "dont-know-you.mp3"
-      },
-      {
-        "name": "Not Programmed Follow Orders",
-        "file": "not-programmed-follow-orders.mp3"
-      }
-    ],
-    "reactions": [
-      {
-        "name": "That´s Funny",
-        "file": "thats-funny.mp3"
-      },
-      {
-        "name": "Hahahaha",
-        "file": "hahahaha.mp3"
-      },
-      {
-        "name": "Hahahaha 2",
-        "file": "hahahaha-2.mp3"
-      },
-      {
-        "name": "Hahahaha 3",
-        "file": "hahahaha-3.mp3"
-      },
-      {
-        "name": "Think I´m Funny",
-        "file": "think-im-funny.mp3"
-      },
-      {
-        "name": "Stop Laughing",
-        "file": "stop-laughing.mp3"
-      },
-      {
-        "name": "Terrific",
-        "file": "terrific.mp3"
-      },
-      {
-        "name": "Yummy",
-        "file": "yummy.mp3"
-      },
-      {
-        "name": "Proud of Yourself",
-        "file": "proud-of-yourself.mp3"
-      },
-      {
-        "name": "Grunt",
-        "file": "grunt.mp3"
-      }
-    ]
+    "pleasantries": {
+      "name": "Pleasantries",
+      "phrases": [
+        "hi.mp3",
+        "sup.mp3",
+        "good-morning.mp3",
+        "whats-going-on.mp3",
+        "good.mp3",
+        "thank-you.mp3",
+        "sorry.mp3",
+        "dont-worry.mp3",
+        "get-to-know-you.mp3",
+        "who-are-you.mp3",
+        "good-bye.mp3",
+        "hasta-la-vista.mp3",
+        "im-back.mp3"
+      ]
+    },
+    "replies": {
+      "name": "Replies",
+      "phrases": [
+        "affirmative.mp3",
+        "yes.mp3",
+        "yes-2.mp3",
+        "absolutely-yeah.mp3",
+        "sure.mp3",
+        "exactly.mp3",
+        "no.mp3",
+        "no-2.mp3",
+        "negative.mp3",
+        "dont-want-to-get-into.mp3",
+        "not-authorized.mp3",
+        "unable-to-comply.mp3",
+        "i-dont-know.mp3"
+      ]
+    },
+    "statements": {
+      "name": "Statements",
+      "phrases": [
+        "come-on.mp3",
+        "game-over.mp3",
+        "most-important-money.mp3",
+        "need-a-vacation.mp3",
+        "take-a-shower.mp3",
+        "wtf-is-going-on.mp3",
+        "protect-you.mp3",
+        "cannot-jeopardize-mission.mp3",
+        "escape-the-blast-zones.mp3",
+        "trying-to-kill-me.mp3",
+        "i-need-your-help.mp3",
+        "count-on-me.mp3"
+      ]
+    },
+    "counters": {
+      "name": "Counters",
+      "phrases": [
+        "it-doesnt-matter.mp3",
+        "story-straight.mp3",
+        "dont-be-ridiculous.mp3",
+        "dont-bullshit-me.mp3",
+        "pressing-charges.mp3",
+        "you-are-disgusting.mp3",
+        "youre-lying.mp3",
+        "just-doing-my-job.mp3",
+        "i-work-alone.mp3",
+        "dont-know-you.mp3",
+        "not-programmed-follow-orders.mp3"
+      ]
+    },
+    "reactions": {
+      "name": "Reactions",
+      "phrases": [
+        "thats-funny.mp3",
+        "hahahaha.mp3",
+        "hahahaha-2.mp3",
+        "hahahaha-3.mp3",
+        "think-im-funny.mp3",
+        "stop-laughing.mp3",
+        "terrific.mp3",
+        "yummy.mp3",
+        "proud-of-yourself.mp3",
+        "grunt.mp3"
+      ]
+    }
+  },
+  "phrases": {
+    "hi.mp3": {
+      "name": "Hi",
+      "file": "hi.mp3"
+    },
+    "sup.mp3": {
+      "name": "Sup",
+      "file": "sup.mp3"
+    },
+    "good-morning.mp3": {
+      "name": "Good Morning",
+      "file": "good-morning.mp3"
+    },
+    "whats-going-on.mp3": {
+      "name": "What´s Going On",
+      "file": "whats-going-on.mp3"
+    },
+    "good.mp3": {
+      "name": "Good",
+      "file": "good.mp3"
+    },
+    "thank-you.mp3": {
+      "name": "Thank You",
+      "file": "thank-you.mp3"
+    },
+    "sorry.mp3": {
+      "name": "Sorry",
+      "file": "sorry.mp3"
+    },
+    "dont-worry.mp3": {
+      "name": "Don´t Worry",
+      "file": "dont-worry.mp3"
+    },
+    "get-to-know-you.mp3": {
+      "name": "Get to Know You",
+      "file": "get-to-know-you.mp3"
+    },
+    "who-are-you.mp3": {
+      "name": "Who Are You",
+      "file": "who-are-you.mp3"
+    },
+    "good-bye.mp3": {
+      "name": "Good Bye",
+      "file": "good-bye.mp3"
+    },
+    "hasta-la-vista.mp3": {
+      "name": "Hasta La Vista",
+      "file": "hasta-la-vista.mp3"
+    },
+    "im-back.mp3": {
+      "name": "I´m Back",
+      "file": "im-back.mp3"
+    },
+    "affirmative.mp3": {
+      "name": "Affirmative",
+      "file": "affirmative.mp3"
+    },
+    "yes.mp3": {
+      "name": "Yes",
+      "file": "yes.mp3"
+    },
+    "yes-2.mp3": {
+      "name": "Yes 2",
+      "file": "yes-2.mp3"
+    },
+    "absolutely-yeah.mp3": {
+      "name": "Absolutely Yeah",
+      "file": "absolutely-yeah.mp3"
+    },
+    "sure.mp3": {
+      "name": "Sure",
+      "file": "sure.mp3"
+    },
+    "exactly.mp3": {
+      "name": "Exactly",
+      "file": "exactly.mp3"
+    },
+    "no.mp3": {
+      "name": "No",
+      "file": "no.mp3"
+    },
+    "no-2.mp3": {
+      "name": "No 2",
+      "file": "no-2.mp3"
+    },
+    "negative.mp3": {
+      "name": "Negative",
+      "file": "negative.mp3"
+    },
+    "dont-want-to-get-into.mp3": {
+      "name": "Don´t Want to Get Into",
+      "file": "dont-want-to-get-into.mp3"
+    },
+    "not-authorized.mp3": {
+      "name": "Not Authorized",
+      "file": "not-authorized.mp3"
+    },
+    "unable-to-comply.mp3": {
+      "name": "Unable To Comply",
+      "file": "unable-to-comply.mp3"
+    },
+    "i-dont-know.mp3": {
+      "name": "I Don´t Know",
+      "file": "i-dont-know.mp3"
+    },
+    "come-on.mp3": {
+      "name": "Come On",
+      "file": "come-on.mp3"
+    },
+    "game-over.mp3": {
+      "name": "Game Over",
+      "file": "game-over.mp3"
+    },
+    "most-important-money.mp3": {
+      "name": "Most Important Money",
+      "file": "most-important-money.mp3"
+    },
+    "need-a-vacation.mp3": {
+      "name": "Need a Vacation",
+      "file": "need-a-vacation.mp3"
+    },
+    "take-a-shower.mp3": {
+      "name": "Take a Shower",
+      "file": "take-a-shower.mp3"
+    },
+    "wtf-is-going-on.mp3": {
+      "name": "WTF is Going On",
+      "file": "wtf-is-going-on.mp3"
+    },
+    "protect-you.mp3": {
+      "name": "Protect You",
+      "file": "protect-you.mp3"
+    },
+    "cannot-jeopardize-mission.mp3": {
+      "name": "Cannot Jeopardize Mission",
+      "file": "cannot-jeopardize-mission.mp3"
+    },
+    "escape-the-blast-zones.mp3": {
+      "name": "Escape the Blast Zones",
+      "file": "escape-the-blast-zones.mp3"
+    },
+    "trying-to-kill-me.mp3": {
+      "name": "Trying to Kill Me",
+      "file": "trying-to-kill-me.mp3"
+    },
+    "i-need-your-help.mp3": {
+      "name": "I Need Your Help",
+      "file": "i-need-your-help.mp3"
+    },
+    "count-on-me.mp3": {
+      "name": "Count On Me",
+      "file": "count-on-me.mp3"
+    },
+    "it-doesnt-matter.mp3": {
+      "name": "It Doesn´t Matter",
+      "file": "it-doesnt-matter.mp3"
+    },
+    "story-straight.mp3": {
+      "name": "Story Straight",
+      "file": "story-straight.mp3"
+    },
+    "dont-be-ridiculous.mp3": {
+      "name": "Don´t Be Ridiculous",
+      "file": "dont-be-ridiculous.mp3"
+    },
+    "dont-bullshit-me.mp3": {
+      "name": "Don´t Bullshit Me",
+      "file": "dont-bullshit-me.mp3"
+    },
+    "pressing-charges.mp3": {
+      "name": "Pressing Charges",
+      "file": "pressing-charges.mp3"
+    },
+    "you-are-disgusting.mp3": {
+      "name": "You Are Disgusting",
+      "file": "you-are-disgusting.mp3"
+    },
+    "youre-lying.mp3": {
+      "name": "You´re Lying",
+      "file": "youre-lying.mp3"
+    },
+    "just-doing-my-job.mp3": {
+      "name": "Just Doing My Job",
+      "file": "just-doing-my-job.mp3"
+    },
+    "i-work-alone.mp3": {
+      "name": "I Work Alone",
+      "file": "i-work-alone.mp3"
+    },
+    "dont-know-you.mp3": {
+      "name": "Don´t Know You",
+      "file": "dont-know-you.mp3"
+    },
+    "not-programmed-follow-orders.mp3": {
+      "name": "Not Programmed Follow Orders",
+      "file": "not-programmed-follow-orders.mp3"
+    },
+    "thats-funny.mp3": {
+      "name": "That´s Funny",
+      "file": "thats-funny.mp3"
+    },
+    "hahahaha.mp3": {
+      "name": "Hahahaha",
+      "file": "hahahaha.mp3"
+    },
+    "hahahaha-2.mp3": {
+      "name": "Hahahaha 2",
+      "file": "hahahaha-2.mp3"
+    },
+    "hahahaha-3.mp3": {
+      "name": "Hahahaha 3",
+      "file": "hahahaha-3.mp3"
+    },
+    "think-im-funny.mp3": {
+      "name": "Think I´m Funny",
+      "file": "think-im-funny.mp3"
+    },
+    "stop-laughing.mp3": {
+      "name": "Stop Laughing",
+      "file": "stop-laughing.mp3"
+    },
+    "terrific.mp3": {
+      "name": "Terrific",
+      "file": "terrific.mp3"
+    },
+    "yummy.mp3": {
+      "name": "Yummy",
+      "file": "yummy.mp3"
+    },
+    "proud-of-yourself.mp3": {
+      "name": "Proud of Yourself",
+      "file": "proud-of-yourself.mp3"
+    },
+    "grunt.mp3": {
+      "name": "Grunt",
+      "file": "grunt.mp3"
+    }
   }
 }

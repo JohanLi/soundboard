@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 import classNames from 'classnames';
 
 import { changeSection, stopAllSounds, loadSoundboard, minimizeWindow } from '../action';
-import { ISoundboards, ISections, IState } from '../types';
-import OutputDevice from './OutputDevice';
+import { ISoundboards, ISections, IPhrases, IState } from '../types';
+//import OutputDevice from './OutputDevice';
 import Search from './Search';
 import Phrase from './Phrase';
 import styles from './soundboard.css';
@@ -12,9 +12,9 @@ import styles from './soundboard.css';
 interface Props {
   soundboards: ISoundboards,
   activeSoundboard: string,
-  name: string,
   sections: ISections,
   activeSection: string,
+  phrases: IPhrases,
   changeSection: (section: string) => void;
   loadSoundboard: (name?: string) => void;
   stopAllSounds: () => void;
@@ -22,8 +22,6 @@ interface Props {
 }
 
 const Soundboard: FunctionComponent<Props> = (props) => {
-  const [dropdown, setDropdown] = useState(false);
-
   useEffect(() => {
     const handleKeypress = (e: KeyboardEvent) => {
       if (e.key === ' ') {
@@ -42,25 +40,8 @@ const Soundboard: FunctionComponent<Props> = (props) => {
     return null;
   }
 
-  const soundboards = Object.keys(props.soundboards).map((soundboard) => (
-    <li
-      key={soundboard}
-      onClick={() => {
-        props.stopAllSounds();
-        props.loadSoundboard(soundboard);
-      }}
-    >
-      {props.soundboards[soundboard].name}
-    </li>
-  ));
-
-  const dropdownClass = classNames({
-    [styles.dropdown]: true,
-    [styles.active]: dropdown,
-  });
-
   const sections = Object.keys(props.sections).map((section) => {
-    const style = classNames({
+    const sectionClass = classNames({
       [styles.section]: true,
       [styles.active]: section === props.activeSection,
     });
@@ -68,7 +49,7 @@ const Soundboard: FunctionComponent<Props> = (props) => {
     return (
       <li
         key={section}
-        className={style}
+        className={sectionClass}
         onClick={() => props.changeSection(section)}
       >
         {props.sections[section].name}
@@ -76,33 +57,18 @@ const Soundboard: FunctionComponent<Props> = (props) => {
     );
   });
 
-  /*
-    keeping all <Phrase> components in the DOM but hiding them based on activeSection allows us to
-    switch section while audio for the previous section is still playing.
-  */
-  const sectionsOfPhrases = Object.keys(props.sections).map((section) => {
-    const style = classNames({
-      [styles.sectionOfPhrases]: true,
-      [styles.hidden]: section !== props.activeSection,
-    });
+  const phrases = props.sections[props.activeSection].phrases.map((phraseId) => {
+    const phrase = props.phrases[phraseId];
+    const key = `${props.activeSoundboard}:${phraseId}`; // two soundboards can share the same phraseId
 
-    const phrases = props.sections[section].phrases.map((phrase) => (
+    return (
       <Phrase
-        key={phrase.name}
+        key={key}
         name={phrase.name}
         audioElement={phrase.audioElement}
         minimizeWindow={props.minimizeWindow}
       />
-    ));
-
-    return (
-      <ul
-        key={section}
-        className={style}
-      >
-        {phrases}
-      </ul>
-    );
+    )
   });
 
   return (
@@ -111,7 +77,11 @@ const Soundboard: FunctionComponent<Props> = (props) => {
       <ul className={styles.sections}>
         {sections}
       </ul>
-      {sectionsOfPhrases}
+      <ul
+        className={styles.phrases}
+      >
+        {phrases}
+      </ul>
     </main>
   );
 };
@@ -119,9 +89,9 @@ const Soundboard: FunctionComponent<Props> = (props) => {
 const mapStateToProps = (state: IState) => ({
   soundboards: state.soundboards,
   activeSoundboard: state.activeSoundboard,
-  name: state.name,
   sections: state.sections,
   activeSection: state.activeSection,
+  phrases: state.phrases,
 });
 
 export default connect(

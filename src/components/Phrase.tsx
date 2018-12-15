@@ -53,7 +53,7 @@ const Phrase: FunctionComponent<Props> = (props) => {
   if (props.match) {
     const toHighlight: any = props.match.highlight.map((index) => props.name[index]);
 
-    const highlighted = toHighlight.map((character: string) => <strong key={character}>{character}</strong>);
+    const highlighted = toHighlight.map((character: string, i: number) => <strong key={i}>{character}</strong>);
 
     name = [];
 
