@@ -59,11 +59,10 @@ const Soundboard: FunctionComponent<Props> = (props) => {
 
   const phrases = props.sections[props.activeSection].phrases.map((phraseId) => {
     const phrase = props.phrases[phraseId];
-    const key = `${props.activeSoundboard}:${phraseId}`; // two soundboards can share the same phraseId
 
     return (
       <Phrase
-        key={key}
+        key={phraseId}
         name={phrase.name}
         audioElement={phrase.audioElement}
         minimizeWindow={props.minimizeWindow}

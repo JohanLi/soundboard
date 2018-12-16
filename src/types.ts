@@ -1,4 +1,5 @@
 export interface IState {
+  loading: boolean;
   soundboards: ISoundboards;
   activeSoundboard: string;
   sections: ISections;

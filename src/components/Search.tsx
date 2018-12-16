@@ -3,14 +3,12 @@ import { connect } from 'react-redux';
 
 import { minimizeWindow, play } from '../action';
 import { wordStartsWith, acronymStartsWith } from '../helpers/match';
-import { IState, ISections, IPhrases, IPhrase } from '../types';
+import { IState, IPhrases, IPhrase } from '../types';
 import Phrase from './Phrase';
 import styles from './search.css';
 import classNames from 'classnames';
 
 interface Props {
-  activeSoundboard: string;
-  sections: ISections;
   phrases: IPhrases;
   name: string;
   minimizeWindow: () => void;
@@ -93,8 +91,6 @@ const Search: FunctionComponent<Props> = (props) => {
 };
 
 const mapStateToProps = (state: IState) => ({
-  activeSoundboard: state.activeSoundboard,
-  sections: state.sections,
   phrases: state.phrases,
   name: state.soundboards[state.activeSoundboard].name,
 });

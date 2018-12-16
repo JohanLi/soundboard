@@ -10,6 +10,7 @@ import { IState, ISoundboards, IPhrases } from './types';
 import { getMetadata } from './helpers/metadata';
 
 const initialState: IState = {
+  loading: true,
   soundboards: {},
   activeSoundboard: null,
   sections: {},
@@ -56,6 +57,7 @@ const reducer: Reducer<IState> = (state = initialState, action) => {
 
       return {
         ...state,
+        loading: false,
         soundboards,
         activeSoundboard,
         sections,

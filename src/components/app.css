@@ -1,3 +1,44 @@
 .main {
   display: flex;
+  height: calc(100vh - 40px);
+}
+
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+}
+
+.loading img {
+  display: block;
+  width: 400px;
+  height: 400px;
+}
+
+.menu {
+  background: #1E1D1E;
+  display: flex;
+  flex-direction: column;
+  padding: 12px 0;
+  flex: 0 0 88px;
+}
+
+.item {
+  padding: 12px 12px 12px 8px;
+  cursor: pointer;
+  user-select: none;
+  border-left: 4px solid transparent;
+}
+
+.item img {
+  width: 64px;
+  height: 64px;
+  border-radius: 8px;
+  display: block;
+}
+
+.item.active {
+  border-left-color: #7A797A;
+  background: #2E2D2F;
 }
