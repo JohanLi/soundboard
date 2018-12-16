@@ -1,8 +1,8 @@
-import React, { FunctionComponent, useState, useEffect } from 'react';
+import React, {FunctionComponent, useEffect, MouseEvent} from 'react';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
 
-import { changeSection, stopAllSounds, loadSoundboard, minimizeWindow } from '../action';
+import { changeSection, stopAllSounds, play } from '../action';
 import { ISoundboards, ISections, IPhrases, IState } from '../types';
 //import OutputDevice from './OutputDevice';
 import Search from './Search';
@@ -16,9 +16,8 @@ interface Props {
   activeSection: string,
   phrases: IPhrases,
   changeSection: (section: string) => void;
-  loadSoundboard: (name?: string) => void;
   stopAllSounds: () => void;
-  minimizeWindow: () => void;
+  play: (id: string, e: MouseEvent) => void;
 }
 
 const Soundboard: FunctionComponent<Props> = (props) => {
@@ -62,10 +61,11 @@ const Soundboard: FunctionComponent<Props> = (props) => {
 
     return (
       <Phrase
-        key={phraseId}
+        key={phrase.id}
+        id={phrase.id}
         name={phrase.name}
         audioElement={phrase.audioElement}
-        minimizeWindow={props.minimizeWindow}
+        play={props.play}
       />
     )
   });
@@ -98,7 +98,6 @@ export default connect(
   {
     changeSection,
     stopAllSounds,
-    loadSoundboard,
-    minimizeWindow,
+    play,
   },
 )(Soundboard);

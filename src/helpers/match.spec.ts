@@ -4,14 +4,17 @@ const audioElement =  document.createElement('audio');
 
 const phrases = [
   {
+    id: 'hi.mp3',
     name: 'Hi',
     audioElement,
   },
   {
+    id: 'good-morning.mp3',
     name: 'Good Morning',
     audioElement,
   },
   {
+    id: 'whats-going-on.mp3',
     name: 'What`s Going On',
     audioElement,
   },

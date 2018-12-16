@@ -50,6 +50,7 @@ const reducer: Reducer<IState> = (state = initialState, action) => {
         audioElement.src = `soundboards/${activeSoundboard}/files/${phrase}`;
 
         phrases[phrase] = {
+          id: phrase,
           name: metadata[activeSoundboard].phrases[phrase].name,
           audioElement,
         };

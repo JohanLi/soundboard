@@ -1,7 +1,7 @@
-import React, { FunctionComponent, ChangeEvent, KeyboardEvent, useState } from 'react';
+import React, { FunctionComponent, ChangeEvent, MouseEvent, KeyboardEvent, useState } from 'react';
 import { connect } from 'react-redux';
 
-import { minimizeWindow, play } from '../action';
+import { play } from '../action';
 import { wordStartsWith, acronymStartsWith } from '../helpers/match';
 import { IState, IPhrases, IPhrase } from '../types';
 import Phrase from './Phrase';
@@ -11,8 +11,7 @@ import classNames from 'classnames';
 interface Props {
   phrases: IPhrases;
   name: string;
-  minimizeWindow: () => void;
-  play: (id: string) => void;
+  play: (id: string, e: MouseEvent | KeyboardEvent) => void;
 }
 
 const Search: FunctionComponent<Props> = (props) => {
@@ -25,7 +24,7 @@ const Search: FunctionComponent<Props> = (props) => {
 
   const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
-      props.play(matchedPhrases[0].id);
+      props.play(matchedPhrases[0].id, e);
       setInput('');
     }
 
@@ -40,10 +39,7 @@ const Search: FunctionComponent<Props> = (props) => {
 
   if (input) {
     matchedPhrases = Object.keys(props.phrases)
-      .map((phraseId) => ({
-        id: phraseId,
-        ...props.phrases[phraseId],
-      }))
+      .map((phraseId) => props.phrases[phraseId])
       .map((phrase) => wordStartsWith(phrase, input))
       .map((phrase) => acronymStartsWith(phrase, input))
       .filter((phrase) => phrase.match);
@@ -52,10 +48,11 @@ const Search: FunctionComponent<Props> = (props) => {
       .map((phrase) => (
         <Phrase
           key={phrase.id}
+          id={phrase.id}
           name={phrase.name}
           audioElement={phrase.audioElement}
+          play={props.play}
           match={phrase.match}
-          minimizeWindow={props.minimizeWindow}
         />
       ));
   }
@@ -98,7 +95,6 @@ const mapStateToProps = (state: IState) => ({
 export default connect(
   mapStateToProps,
   {
-    minimizeWindow,
     play,
   }
 )(Search);

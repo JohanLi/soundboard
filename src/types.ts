@@ -31,9 +31,9 @@ export interface IPhrases {
 }
 
 export interface IPhrase {
+  id: string;
   name: string;
   audioElement: HTMLAudioElement;
-  id?: string;
   match?: {
     type: string;
     highlight: number[];

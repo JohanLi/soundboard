@@ -1,5 +1,6 @@
 import { Dispatch } from 'redux';
 import { remote } from 'electron';
+import { MouseEvent, KeyboardEvent } from 'react';
 
 import { IState } from './types';
 
@@ -70,11 +71,7 @@ export const changeOutputDevice = (id: string) => {
   };
 };
 
-export const minimizeWindow = () => {
-  remoteWindow.minimize();
-};
-
-export const play = (id: string) => {
+export const play = (id: string, e: MouseEvent | KeyboardEvent) => {
   return (dispatch: Dispatch, getState: () => IState) => {
     const { phrases } = getState();
 
@@ -83,6 +80,10 @@ export const play = (id: string) => {
       phrases[id].audioElement.currentTime = 0;
     } else {
       phrases[id].audioElement.play();
+    }
+
+    if (e.ctrlKey || e.metaKey) {
+      remoteWindow.minimize();
     }
   };
 };

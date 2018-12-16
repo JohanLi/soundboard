@@ -4,7 +4,7 @@ import styles from './phrase.css';
 import { IPhrase } from '../types';
 
 interface Props extends IPhrase {
-  minimizeWindow: () => void;
+  play: (id: string, e: MouseEvent) => void;
 }
 
 const Phrase: FunctionComponent<Props> = (props) => {
@@ -36,16 +36,7 @@ const Phrase: FunctionComponent<Props> = (props) => {
   }, []);
 
   const onClick = (e: MouseEvent) => {
-    if (!props.audioElement.paused) {
-      props.audioElement.pause();
-      props.audioElement.currentTime = 0;
-    } else {
-      props.audioElement.play();
-
-      if (e.ctrlKey || e.metaKey) {
-        props.minimizeWindow();
-      }
-    }
+    props.play(props.id, e);
   };
 
   let name: any = props.name;
