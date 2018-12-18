@@ -71,7 +71,7 @@ const Soundboard: FunctionComponent<Props> = (props) => {
   });
 
   return (
-    <main className={styles.main} style={{ backgroundImage: `url('soundboards/${props.activeSoundboard}/avatar.png')` }}>
+    <main className={styles.main}>
       <Search />
       <ul className={styles.sections}>
         {sections}
