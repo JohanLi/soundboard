@@ -43,7 +43,7 @@ export interface IPhrase {
 
 export interface IPhraseDropdown {
   active: boolean;
-  phraseId: number;
+  phraseId: string;
   x: number;
   y: number;
 }

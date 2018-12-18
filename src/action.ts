@@ -136,11 +136,10 @@ export const renamePhrase = (phraseId: string, name: string) => {
 };
 
 
-export const removePhrase = (phraseId: string) => {
+export const removePhrase = () => {
   return (dispatch: Dispatch, getState: () => IState) => {
     dispatch({
       type: REMOVE_PHRASE,
-      payload: phraseId,
     });
 
     save(getState());

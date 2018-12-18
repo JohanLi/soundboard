@@ -31,6 +31,7 @@
   user-select: none;
   border-left: 4px solid transparent;
   position: relative;
+  z-index: 1;
 }
 
 .item img {
@@ -55,7 +56,6 @@
   left: calc(100% - 4px);
   top: 50%;
   transform: translateY(-50%);
-  width: 200px;
   background: #020202;
   color: #fff;
   padding: 0 10px;
@@ -80,6 +80,4 @@
 
 .name {
   white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }

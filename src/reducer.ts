@@ -128,14 +128,15 @@ const reducer: Reducer<IState> = (state = initialState, action) => {
       };
     }
     case REMOVE_PHRASE: {
+      const { phraseId } = state.phraseDropdown;
       const newSections = Object.assign({}, state.sections);
 
       Object.keys(newSections).forEach((sectionId) => {
-        newSections[sectionId].phrases = newSections[sectionId].phrases.filter((phraseId) => phraseId !== payload);
+        newSections[sectionId].phrases = newSections[sectionId].phrases.filter((id) => id !== phraseId);
       });
 
       const newPhrases = Object.assign({}, state.phrases);
-      delete newPhrases[payload];
+      delete newPhrases[phraseId];
 
       return {
         ...state,
