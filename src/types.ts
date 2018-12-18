@@ -5,6 +5,7 @@ export interface IState {
   sections: ISections;
   activeSection: string;
   phrases: IPhrases;
+  phraseDropdown: IPhraseDropdown;
   devices: IDevice[];
   activeDevice: string;
 }
@@ -38,6 +39,13 @@ export interface IPhrase {
     type: string;
     highlight: number[];
   };
+}
+
+export interface IPhraseDropdown {
+  active: boolean;
+  phraseId: number;
+  x: number;
+  y: number;
 }
 
 export interface IDevice {

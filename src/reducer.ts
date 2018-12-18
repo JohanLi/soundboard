@@ -5,6 +5,8 @@ import {
   LOAD_SOUNDBOARD,
   LOADED_OUTPUT_DEVICES,
   CHANGE_OUTPUT_DEVICE,
+  SHOW_PHRASE_DROPDOWN,
+  HIDE_PHRASE_DROPDOWN,
   RENAME_PHRASE,
   REMOVE_PHRASE,
 } from './action';
@@ -17,6 +19,12 @@ const initialState: IState = {
   sections: {},
   activeSection: null,
   phrases: {},
+  phraseDropdown: {
+    active: false,
+    phraseId: null,
+    x: null,
+    y: null,
+  },
   devices: [],
   activeDevice: 'default',
 };
@@ -84,6 +92,30 @@ const reducer: Reducer<IState> = (state = initialState, action) => {
       return {
         ...state,
         activeDevice: payload,
+      };
+    }
+    case SHOW_PHRASE_DROPDOWN: {
+      const { phraseId, x, y } = payload;
+
+      return {
+        ...state,
+        phraseDropdown: {
+          active: true,
+          phraseId,
+          x,
+          y,
+        },
+      };
+    }
+    case HIDE_PHRASE_DROPDOWN: {
+      return {
+        ...state,
+        phraseDropdown: {
+          active: false,
+          phraseId: null,
+          x: null,
+          y: null,
+        },
       };
     }
     case RENAME_PHRASE: {

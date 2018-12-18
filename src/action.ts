@@ -11,6 +11,8 @@ export const LOAD_SOUNDBOARD = 'LOAD_SOUNDBOARD';
 export const CHANGE_SECTION = 'CHANGE_SECTION';
 export const LOADED_OUTPUT_DEVICES = 'LOADED_OUTPUT_DEVICES';
 export const CHANGE_OUTPUT_DEVICE = 'CHANGE_OUTPUT_DEVICE';
+export const SHOW_PHRASE_DROPDOWN = 'SHOW_PHRASE_DROPDOWN';
+export const HIDE_PHRASE_DROPDOWN = 'HIDE_PHRASE_DROPDOWN';
 export const RENAME_PHRASE = 'RENAME_PHRASE';
 export const REMOVE_PHRASE = 'REMOVE_PHRASE';
 
@@ -90,6 +92,31 @@ export const play = (id: string, e: MouseEvent | KeyboardEvent) => {
 
     if (e.ctrlKey || e.metaKey) {
       remoteWindow.minimize();
+    }
+  };
+};
+
+export const showPhraseDropdown = (phraseId: string, e: MouseEvent) => {
+  e.stopPropagation();
+
+  return {
+    type: SHOW_PHRASE_DROPDOWN,
+    payload: {
+      phraseId,
+      x: e.clientX,
+      y: e.clientY,
+    },
+  };
+};
+
+export const hidePhraseDropdown = () => {
+  return (dispatch: Dispatch, getState: () => IState) => {
+    const { phraseDropdown } = getState();
+
+    if (phraseDropdown.active) {
+      dispatch({
+        type: HIDE_PHRASE_DROPDOWN,
+      });
     }
   };
 };

@@ -37,3 +37,20 @@
   margin: 0;
   padding: 0;
 }
+
+.dropdown {
+  position: absolute;
+  z-index: 1;
+  width: 100px;
+  border: 1px solid #aaa;
+}
+
+.item {
+  padding: 10px 15px;
+  background: #ccc;
+  cursor: pointer;
+}
+
+.item:hover {
+  background: #bbb;
+}

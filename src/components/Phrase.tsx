@@ -1,10 +1,13 @@
 import React, { FunctionComponent, MouseEvent, useState, useEffect } from 'react';
+import { connect } from 'react-redux';
 
 import styles from './phrase.css';
 import { IPhrase } from '../types';
+import { showPhraseDropdown } from '../action';
 
 interface Props extends IPhrase {
   play: (id: string, e: MouseEvent) => void;
+  showPhraseDropdown: (id: string, e: MouseEvent) => void;
 }
 
 const Phrase: FunctionComponent<Props> = (props) => {
@@ -35,10 +38,6 @@ const Phrase: FunctionComponent<Props> = (props) => {
     };
   }, []);
 
-  const onClick = (e: MouseEvent) => {
-    props.play(props.id, e);
-  };
-
   let name: any = props.name;
 
   if (props.match) {
@@ -57,12 +56,19 @@ const Phrase: FunctionComponent<Props> = (props) => {
   return (
     <li
       className={styles.button}
-      onClick={onClick}
+      onContextMenu={(e) => props.showPhraseDropdown(props.id, e)}
       style={{ background: `linear-gradient(90deg, #ccc ${percent}%, #ddd 0%)` }}
     >
-      {name}
+      <div className={styles.text} onClick={(e) => props.play(props.id, e)}>
+        {name}
+      </div>
     </li>
   );
 };
 
-export default Phrase;
+export default connect(
+  null,
+  {
+    showPhraseDropdown,
+  },
+)(Phrase);
