@@ -5,9 +5,10 @@ import {
   LOAD_SOUNDBOARD,
   LOADED_OUTPUT_DEVICES,
   CHANGE_OUTPUT_DEVICE,
+  RENAME_PHRASE,
+  REMOVE_PHRASE,
 } from './action';
 import { IState, ISoundboards, IPhrases } from './types';
-import { getMetadata } from './helpers/metadata';
 
 const initialState: IState = {
   loading: true,
@@ -25,33 +26,34 @@ const reducer: Reducer<IState> = (state = initialState, action) => {
 
   switch (type) {
     case LOAD_SOUNDBOARD: {
-      const metadata = getMetadata();
+      const { name, manifests } = payload;
+      
       const soundboards: ISoundboards = {};
 
-      Object.keys(metadata).forEach((soundboard) => {
+      Object.keys(manifests).forEach((soundboard) => {
         soundboards[soundboard] = {
-          name: metadata[soundboard].name,
+          name: manifests[soundboard].name,
         };
       });
 
       let activeSoundboard = Object.keys(soundboards)[0];
 
-      if (payload) {
-        activeSoundboard = payload;
+      if (name) {
+        activeSoundboard = name;
       }
 
-      const sections = metadata[activeSoundboard].sections;
+      const sections = manifests[activeSoundboard].sections;
       const activeSection = Object.keys(sections)[0];
 
       const phrases: IPhrases = {};
 
-      Object.keys(metadata[activeSoundboard].phrases).forEach((phrase) => {
+      Object.keys(manifests[activeSoundboard].phrases).forEach((phrase) => {
         const audioElement = document.createElement('audio');
         audioElement.src = `soundboards/${activeSoundboard}/files/${phrase}`;
 
         phrases[phrase] = {
           id: phrase,
-          name: metadata[activeSoundboard].phrases[phrase].name,
+          name: manifests[activeSoundboard].phrases[phrase].name,
           audioElement,
         };
       });
@@ -82,6 +84,31 @@ const reducer: Reducer<IState> = (state = initialState, action) => {
       return {
         ...state,
         activeDevice: payload,
+      };
+    }
+    case RENAME_PHRASE: {
+      const newPhrases = Object.assign({}, state.phrases);
+      newPhrases[payload.phraseId].name = payload.name;
+
+      return {
+        ...state,
+        phrases: newPhrases,
+      };
+    }
+    case REMOVE_PHRASE: {
+      const newSections = Object.assign({}, state.sections);
+
+      Object.keys(newSections).forEach((sectionId) => {
+        newSections[sectionId].phrases = newSections[sectionId].phrases.filter((phraseId) => phraseId !== payload);
+      });
+
+      const newPhrases = Object.assign({}, state.phrases);
+      delete newPhrases[payload];
+
+      return {
+        ...state,
+        sections: newSections,
+        phrases: newPhrases,
       };
     }
     default: {

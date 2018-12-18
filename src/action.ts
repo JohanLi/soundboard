@@ -2,6 +2,7 @@ import { Dispatch } from 'redux';
 import { remote } from 'electron';
 import { MouseEvent, KeyboardEvent } from 'react';
 
+import { getAll, save } from './helpers/manifest';
 import { IState } from './types';
 
 const remoteWindow = remote.getCurrentWindow();
@@ -10,11 +11,16 @@ export const LOAD_SOUNDBOARD = 'LOAD_SOUNDBOARD';
 export const CHANGE_SECTION = 'CHANGE_SECTION';
 export const LOADED_OUTPUT_DEVICES = 'LOADED_OUTPUT_DEVICES';
 export const CHANGE_OUTPUT_DEVICE = 'CHANGE_OUTPUT_DEVICE';
+export const RENAME_PHRASE = 'RENAME_PHRASE';
+export const REMOVE_PHRASE = 'REMOVE_PHRASE';
 
 export const loadSoundboard = (name: string) => {
   return {
     type: LOAD_SOUNDBOARD,
-    payload: name,
+    payload: {
+      name,
+      manifests: getAll(),
+    },
   };
 };
 
@@ -85,5 +91,31 @@ export const play = (id: string, e: MouseEvent | KeyboardEvent) => {
     if (e.ctrlKey || e.metaKey) {
       remoteWindow.minimize();
     }
+  };
+};
+
+export const renamePhrase = (phraseId: string, name: string) => {
+  return (dispatch: Dispatch, getState: () => IState) => {
+    dispatch({
+      type: RENAME_PHRASE,
+      payload: {
+        phraseId,
+        name,
+      },
+    });
+
+    save(getState());
+  };
+};
+
+
+export const removePhrase = (phraseId: string) => {
+  return (dispatch: Dispatch, getState: () => IState) => {
+    dispatch({
+      type: REMOVE_PHRASE,
+      payload: phraseId,
+    });
+
+    save(getState());
   };
 };
