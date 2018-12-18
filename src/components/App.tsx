@@ -43,6 +43,8 @@ const App: FunctionComponent<Props> = (props) => {
       [styles.active]: soundboard === props.activeSoundboard,
     });
 
+    const { name } = props.soundboards[soundboard];
+
     return (
       <div
         key={soundboard}
@@ -53,6 +55,11 @@ const App: FunctionComponent<Props> = (props) => {
         }}
       >
         <img src={`/soundboards/${soundboard}/icon.png`} />
+        <div className={styles.popover}>
+          <div className={styles.name}>
+            {name}
+          </div>
+        </div>
       </div>
     );
   });
