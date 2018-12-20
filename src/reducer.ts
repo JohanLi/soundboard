@@ -9,8 +9,9 @@ import {
   HIDE_PHRASE_DROPDOWN,
   RENAME_PHRASE,
   REMOVE_PHRASE,
+  ADD_PHRASES,
 } from './action';
-import { IState, ISoundboards, IPhrases } from './types';
+import { IState, ISoundboards, IPhrases, IFile } from './types';
 
 const initialState: IState = {
   loading: true,
@@ -35,7 +36,6 @@ const reducer: Reducer<IState> = (state = initialState, action) => {
   switch (type) {
     case LOAD_SOUNDBOARD: {
       const { name, manifests } = payload;
-      
       const soundboards: ISoundboards = {};
 
       Object.keys(manifests).forEach((soundboard) => {
@@ -137,6 +137,29 @@ const reducer: Reducer<IState> = (state = initialState, action) => {
 
       const newPhrases = Object.assign({}, state.phrases);
       delete newPhrases[phraseId];
+
+      return {
+        ...state,
+        sections: newSections,
+        phrases: newPhrases,
+      };
+    }
+    case ADD_PHRASES: {
+      const newSections = Object.assign({}, state.sections);
+      const newPhrases = Object.assign({}, state.phrases);
+
+      payload.forEach((file: IFile) => {
+        newSections[state.activeSection].phrases.push(file.name);
+
+        const audioElement = document.createElement('audio');
+        audioElement.src = `soundboards/${state.activeSoundboard}/files/${file.name}`;
+
+        newPhrases[file.name] = {
+          id: file.name,
+          name: file.name,
+          audioElement,
+        };
+      });
 
       return {
         ...state,

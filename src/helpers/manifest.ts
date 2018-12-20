@@ -1,8 +1,8 @@
-import { lstatSync, readdirSync, readFileSync, writeFileSync } from 'fs';
+import {default as fs, lstatSync, readdirSync, readFileSync, writeFileSync} from 'fs';
 import { join } from 'path';
 
 import { SOUNDBOARDS_PATH } from './constants';
-import { ISoundboards, ISections, IPhrases } from '../types';
+import { ISoundboards, ISections, IPhrases, IFile } from '../types';
 
 interface IManifests {
   [key: string]: ISoundboard;
@@ -45,6 +45,12 @@ export const getAll = () => {
   });
 
   return manifests;
+};
+
+export const add = (files: IFile[], soundboard: string) => {
+  files.forEach((file) => {
+    fs.copyFileSync(file.path, join(SOUNDBOARDS_PATH, soundboard, 'files', file.name));
+  });
 };
 
 export const save = (state: IState) => {

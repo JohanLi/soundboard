@@ -65,7 +65,7 @@ test('able to overwrite the manifest of a soundboard', () => {
         id: 'good-morning.mp3',
         name: 'Good Morning',
         audioElement,
-      }
+      },
     },
   };
 
@@ -78,7 +78,7 @@ test('able to overwrite the manifest of a soundboard', () => {
           phrases: [
             'hi.mp3',
             'good-morning.mp3',
-          ]
+          ],
         },
       },
       phrases: {

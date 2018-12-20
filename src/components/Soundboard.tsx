@@ -1,8 +1,8 @@
-import React, {FunctionComponent, useState, useEffect, MouseEvent, ChangeEvent} from 'react';
+import React, { FunctionComponent, useState, useEffect, MouseEvent, ChangeEvent, DragEvent } from 'react';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
 
-import { changeSection, stopAllSounds, play, hidePhraseDropdown, renamePhrase, removePhrase } from '../action';
+import { changeSection, stopAllSounds, play, hidePhraseDropdown, renamePhrase, removePhrase, addPhrases } from '../action';
 import { ISoundboards, ISections, IPhrases, IPhraseDropdown, IState } from '../types';
 //import OutputDevice from './OutputDevice';
 import Search from './Search';
@@ -22,6 +22,7 @@ interface Props {
   hidePhraseDropdown: () => void;
   renamePhrase: (id: string, name: string) => void;
   removePhrase: () => void;
+  addPhrases: (e: DragEvent) => void;
 }
 
 const renameModalInitial = {
@@ -158,7 +159,7 @@ const Soundboard: FunctionComponent<Props> = (props) => {
 
   return (
     <>
-      <main className={styles.main}>
+      <main className={styles.main} onDrop={props.addPhrases} onDragOver={(e) => e.preventDefault()}>
         <Search />
         <ul className={styles.sections}>
           {sections}
@@ -193,5 +194,6 @@ export default connect(
     hidePhraseDropdown,
     renamePhrase,
     removePhrase,
+    addPhrases,
   },
 )(Soundboard);

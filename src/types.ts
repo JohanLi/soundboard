@@ -48,6 +48,11 @@ export interface IPhraseDropdown {
   y: number;
 }
 
+export interface IFile {
+  path: string;
+  name: string;
+}
+
 export interface IDevice {
   id: string;
   label: string;

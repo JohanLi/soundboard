@@ -1,9 +1,9 @@
 import { Dispatch } from 'redux';
 import { remote } from 'electron';
-import { MouseEvent, KeyboardEvent } from 'react';
+import { MouseEvent, KeyboardEvent, DragEvent } from 'react';
 
-import { getAll, save } from './helpers/manifest';
-import { IState } from './types';
+import { getAll, add, save } from './helpers/manifest';
+import { IState, IFile } from './types';
 
 const remoteWindow = remote.getCurrentWindow();
 
@@ -15,6 +15,7 @@ export const SHOW_PHRASE_DROPDOWN = 'SHOW_PHRASE_DROPDOWN';
 export const HIDE_PHRASE_DROPDOWN = 'HIDE_PHRASE_DROPDOWN';
 export const RENAME_PHRASE = 'RENAME_PHRASE';
 export const REMOVE_PHRASE = 'REMOVE_PHRASE';
+export const ADD_PHRASES = 'ADD_PHRASES';
 
 export const loadSoundboard = (name: string) => {
   return {
@@ -135,7 +136,6 @@ export const renamePhrase = (phraseId: string, name: string) => {
   };
 };
 
-
 export const removePhrase = () => {
   return (dispatch: Dispatch, getState: () => IState) => {
     dispatch({
@@ -143,5 +143,46 @@ export const removePhrase = () => {
     });
 
     save(getState());
+  };
+};
+
+export const addPhrases = (e: DragEvent) => {
+  return (dispatch: Dispatch, getState: () => IState) => {
+    const { activeSoundboard } = getState();
+
+    if (!e.dataTransfer.items) {
+      return;
+    }
+
+    const audioElement = document.createElement('audio');
+    const files: IFile[] = [];
+
+    for (const item of e.dataTransfer.items) {
+      if (item.kind !== 'file') {
+        continue;
+      }
+
+      const file = item.getAsFile();
+
+      if (audioElement.canPlayType(file.type) !== 'probably') {
+        continue;
+      }
+
+      files.push({
+        path: file.path,
+        name: file.name,
+      });
+    }
+
+    if (files.length) {
+      add(files, activeSoundboard);
+
+      dispatch({
+        type: ADD_PHRASES,
+        payload: files,
+      });
+
+      save(getState());
+    }
   };
 };
