@@ -8,6 +8,7 @@ export interface IState {
   phraseDropdown: IPhraseDropdown;
   devices: IDevice[];
   activeDevice: string;
+  modal: IModal;
 }
 
 export interface ISoundboards {
@@ -57,3 +58,11 @@ export interface IDevice {
   id: string;
   label: string;
 }
+
+export interface IModal {
+  type: ModalTypes;
+  sectionId?: string;
+  phraseId?: string;
+}
+
+export type ModalTypes = 'addSection' | 'renameSection' | 'renamePhrase';

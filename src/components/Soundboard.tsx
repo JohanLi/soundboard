@@ -1,12 +1,13 @@
-import React, { FunctionComponent, useState, useEffect, MouseEvent, ChangeEvent, DragEvent } from 'react';
+import React, { FunctionComponent, useEffect, MouseEvent, DragEvent } from 'react';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
 
-import { changeSection, stopAllSounds, play, hidePhraseDropdown, renamePhrase, removePhrase, addPhrases } from '../action';
-import { ISoundboards, ISections, IPhrases, IPhraseDropdown, IState } from '../types';
+import { changeSection, stopAllSounds, play, hidePhraseDropdown, removePhrase, addPhrases, openModal } from '../action';
+import { ISoundboards, ISections, IPhrases, IPhraseDropdown, IState, ModalTypes } from '../types';
 //import OutputDevice from './OutputDevice';
 import Search from './Search';
 import Phrase from './Phrase';
+import Modal from './Modal';
 import styles from './soundboard.css';
 
 interface Props {
@@ -20,28 +21,16 @@ interface Props {
   stopAllSounds: () => void;
   play: (id: string, e: MouseEvent) => void;
   hidePhraseDropdown: () => void;
-  renamePhrase: (id: string, name: string) => void;
   removePhrase: () => void;
   addPhrases: (e: DragEvent) => void;
+  openModal: (type: ModalTypes, sectionOrPhraseId?: string) => void;
 }
 
-const renameModalInitial = {
-  active: false,
-  phraseId: '',
-  newName: '',
-};
-
 const Soundboard: FunctionComponent<Props> = (props) => {
-  const [renameModal, setRenameModal] = useState(renameModalInitial);
-
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === ' ') {
         props.stopAllSounds();
-      }
-
-      if (e.key === 'Escape' && renameModal.active) {
-        setRenameModal(renameModalInitial);
       }
     };
 
@@ -55,13 +44,6 @@ const Soundboard: FunctionComponent<Props> = (props) => {
       window.removeEventListener('contextmenu', props.hidePhraseDropdown);
     };
   });
-
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setRenameModal({
-      ...renameModal,
-      newName: e.target.value,
-    });
-  };
 
   if (!props.activeSoundboard) {
     return null;
@@ -110,7 +92,7 @@ const Soundboard: FunctionComponent<Props> = (props) => {
       >
         <div
           className={styles.item}
-          onClick={() => setRenameModal({ active: true, phraseId: props.phraseDropdown.phraseId, newName: '' })}
+          onClick={() => props.openModal('renamePhrase', props.phraseDropdown.phraseId)}
         >
           Rename
         </div>
@@ -124,52 +106,25 @@ const Soundboard: FunctionComponent<Props> = (props) => {
     );
   }
 
-  let renameModalJsx = null;
-
-  if (renameModal.active) {
-    renameModalJsx = (
-      <div className={styles.modal}>
-        <div className={styles.overlay} />
-        <div className={styles.content}>
-          <div className={styles.newName}>
-            Enter new name
-          </div>
-          <input
-            type="text"
-            placeholder={props.phrases[renameModal.phraseId].name}
-            value={renameModal.newName}
-            onChange={handleChange}
-            autoFocus
-          />
-          <div className={styles.buttonWrapper}>
-            <button type="button" className={styles.buttonWarning} onClick={() => setRenameModal(renameModalInitial)}>
-              Cancel
-            </button>
-            <button type="button" className={styles.button} onClick={() => {
-              props.renamePhrase(renameModal.phraseId, renameModal.newName);
-              setRenameModal(renameModalInitial);
-            }}>
-              Ok
-            </button>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
   return (
     <>
       <main className={styles.main} onDrop={props.addPhrases} onDragOver={(e) => e.preventDefault()}>
         <Search />
         <ul className={styles.sections}>
           {sections}
+          <li
+            className={styles.add}
+            onClick={() => props.openModal('addSection')}
+          >
+            add new
+          </li>
         </ul>
         <ul
           className={styles.phrases}
         >
           {phrases}
         </ul>
-        {renameModalJsx}
+        <Modal />
       </main>
       {phraseDropdown}
     </>
@@ -192,8 +147,8 @@ export default connect(
     stopAllSounds,
     play,
     hidePhraseDropdown,
-    renamePhrase,
     removePhrase,
     addPhrases,
+    openModal,
   },
 )(Soundboard);

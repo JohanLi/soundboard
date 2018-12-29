@@ -10,6 +10,9 @@ import {
   RENAME_PHRASE,
   REMOVE_PHRASE,
   ADD_PHRASES,
+  OPEN_MODAL,
+  CLOSE_MODAL,
+  ADD_SECTION,
 } from './action';
 import { IState, ISoundboards, IPhrases, IFile } from './types';
 
@@ -28,6 +31,7 @@ const initialState: IState = {
   },
   devices: [],
   activeDevice: 'default',
+  modal: null,
 };
 
 const reducer: Reducer<IState> = (state = initialState, action) => {
@@ -120,7 +124,7 @@ const reducer: Reducer<IState> = (state = initialState, action) => {
     }
     case RENAME_PHRASE: {
       const newPhrases = Object.assign({}, state.phrases);
-      newPhrases[payload.phraseId].name = payload.name;
+      newPhrases[payload.phraseId].name = payload.newName;
 
       return {
         ...state,
@@ -165,6 +169,48 @@ const reducer: Reducer<IState> = (state = initialState, action) => {
         ...state,
         sections: newSections,
         phrases: newPhrases,
+      };
+    }
+    case OPEN_MODAL: {
+      switch (payload.type) {
+        case 'renamePhrase': {
+          return {
+            ...state,
+            modal: {
+              type: payload.type,
+              phraseId: payload.sectionOrPhraseId,
+            },
+          };
+        }
+        case 'addSection': {
+          return {
+            ...state,
+            modal: {
+              type: payload.type,
+            },
+          };
+        }
+        default: {
+          return state;
+        }
+      }
+    }
+    case CLOSE_MODAL: {
+      return {
+        ...state,
+        modal: null,
+      };
+    }
+    case ADD_SECTION: {
+      const newSections = Object.assign({}, state.sections);
+      newSections[payload] = {
+        name: payload,
+        phrases: [],
+      };
+
+      return {
+        ...state,
+        sections: newSections,
       };
     }
     default: {

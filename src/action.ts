@@ -3,7 +3,7 @@ import { remote } from 'electron';
 import { MouseEvent, KeyboardEvent, DragEvent } from 'react';
 
 import { getAll, add, save } from './helpers/manifest';
-import { IState, IFile } from './types';
+import { IState, IFile, ModalTypes } from './types';
 
 const remoteWindow = remote.getCurrentWindow();
 
@@ -16,6 +16,9 @@ export const HIDE_PHRASE_DROPDOWN = 'HIDE_PHRASE_DROPDOWN';
 export const RENAME_PHRASE = 'RENAME_PHRASE';
 export const REMOVE_PHRASE = 'REMOVE_PHRASE';
 export const ADD_PHRASES = 'ADD_PHRASES';
+export const OPEN_MODAL = 'OPEN_MODAL';
+export const CLOSE_MODAL = 'CLOSE_MODAL';
+export const ADD_SECTION = 'ADD_SECTION';
 
 export const loadSoundboard = (name: string) => {
   return {
@@ -122,13 +125,13 @@ export const hidePhraseDropdown = () => {
   };
 };
 
-export const renamePhrase = (phraseId: string, name: string) => {
+export const renamePhrase = (phraseId: string, newName: string) => {
   return (dispatch: Dispatch, getState: () => IState) => {
     dispatch({
       type: RENAME_PHRASE,
       payload: {
         phraseId,
-        name,
+        newName,
       },
     });
 
@@ -184,5 +187,28 @@ export const addPhrases = (e: DragEvent) => {
 
       save(getState());
     }
+  };
+};
+
+export const openModal = (type: ModalTypes, sectionOrPhraseId?: string) => ({
+  type: OPEN_MODAL,
+  payload: {
+    type,
+    sectionOrPhraseId,
+  },
+});
+
+export const closeModal = () => ({
+  type: CLOSE_MODAL,
+});
+
+export const addSection = (name: string) => {
+  return (dispatch: Dispatch, getState: () => IState) => {
+    dispatch({
+      type: ADD_SECTION,
+      payload: name,
+    });
+
+    save(getState());
   };
 };
